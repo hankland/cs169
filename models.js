@@ -3,7 +3,8 @@ var Sequelize = require('sequelize');
 var sequelize = new Sequelize('cs169','cs169','cs169', {
   host: 'localhost',
   port: 5432,
-  dialect: 'postgres'
+  dialect: 'postgres',
+  omitNull: true
 });
 
 var User = sequelize.import(__dirname + '/models/user');
