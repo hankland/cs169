@@ -9,7 +9,8 @@ var express = require('express')
   , path = require('path')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
-  , account = require('./routes/account.js');
+  , account = require('./routes/account.js')
+  , register = require('./routes/register.js'); /* SH: ADDED */
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.get('/', routes.index);
 app.post('/login', login);
 app.get('/account', account);
 app.get('/logout', logout);
+app.post('/register', register); /* SH: ADDED */
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
