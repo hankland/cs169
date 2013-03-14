@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type='text/javascript' src="/javascripts/post.js"></script>
+  </head>
+  <body>
+  <form>
+  username: <input type="text" id=username></br>
+  password: <input type="text" id=password></br>
+  <input type="button" value="Login" onclick="javascript:post('/login', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
+	<input type="button" value="Register" onclick="javascript:post('/register', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
+  </body>
+</html>
+
