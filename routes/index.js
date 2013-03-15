@@ -3,6 +3,10 @@
  */
 
 exports.index = function(req, res) {
-  res.render('index', { title: 'A New MMORPG' });
+  if (req.session.user) {
+    res.redirect("/account");
+  } else {
+    res.render('index', { title: 'A New MMORPG' });
+  }
 };
 
