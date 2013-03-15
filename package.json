@@ -13,6 +13,7 @@
     "socket.io": "latest",
     "session.socket.io": "latest",
     "mocha": "latest",
-    "should": "latest"
+    "should": "latest",
+    "supertest": "latest"
   }
 }
