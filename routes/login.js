@@ -12,7 +12,6 @@ module.exports = function(req, res) {
         if (req.body.password == u.password) {
           console.log("LOGIN: Login successful!");
           req.session.user = u.id;
-          console.log("login: " + req.session.user);
           res.json({user: u});
         } else { /* BAD PASSWORD ERROR */
           console.log("LOGIN: Wrong password provided... (FAILURE)");

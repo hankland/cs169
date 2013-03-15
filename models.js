@@ -15,6 +15,9 @@ var Class = sequelize.import(__dirname + '/models/class');
 Class.hasMany(Character);
 User.hasMany(Character);
 Area.hasMany(Character);
+Character.belongsTo(Class);
+Character.belongsTo(User);
+Character.belongsTo(Area);
 
 
 module.exports.User = User;

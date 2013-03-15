@@ -1,13 +1,19 @@
 User = require('../models').User;
 Character = require('../models').Character;
 
+/* REQ should contain:
+ *  req.session.user: The currently logged-in user.
+ *  req.body.job: The desired job/class name.
+ *  req.body.job: The desired character name.
+ */
 module.exports = function(req, res) {
   console.log(JSON.stringify(req.body));
   console.log("CREATE_CHARACTER: Printing session data...\n" + req.session.user);
-  if (req.session.user) {
+  if (req.session.user && req.body.job && req.body.name) {
     var user = User.find(req.session.user);
-    var job = req.body.job;
+    var job = Class.find({where: {name: req.body.job}});
     var area = null; // TO-DO: should be some particular initial area
+    console.log("create_character: " + user + ", " + job);
     Character.find({where: {name: req.body.name}}).success(function(character) {
       console.log("CREATE_CHARACTER: Checking if character name doesn't already exist...");
       if (character == null) {

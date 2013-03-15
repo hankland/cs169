@@ -5,8 +5,22 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-  <%= username %> LOGGED IN
-  <a href="/logout">logout</a>
+
+    <div id="characterbox">
+    <h1>Select Your Character, <b><%= username %></b>!</h1>
+    <form>
+    <select id="characterlist" style="width: 300px">
+      <% for (var i = 0; i < characters.length; i++) { %>
+        <option value=<%= characters[i] %>><%= characters[i] %></option>
+      <% } %>
+    </select>
+    <br />
+    <input id="selectbutton" type="button" value="Start Game" onclick="javascript:post('/select_character', {character: document.getElementById('characterlist').value}, function f(data) { window.location.href = '/play'; })">
+    <input id="createbutton" type="button" value="Create Character" onclick="window.location.href = '/character_creation'"> <!-- Add -->
+    <input id="logoutbutton" type="button" value="Logout" onclick="javascript:get('/logout', {}, function f(data) { window.location.href = '/';})"> <!-- Add -->
+    </form>
+    </div>
+
   </body>
 </html>
 
