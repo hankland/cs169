@@ -1,0 +1,147 @@
+<html>
+  <head>
+  </head>
+  <body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var socket = io.connect('/');
+  socket.on('move', function(data) {
+    if (data.name === myname) {
+      boxman.x = boxman.newx = data.xpos;
+      boxman.y = boxman.newy = data.ypos;
+    } else {
+      for (var i = 0; i < players.length; i++) {
+        if (data.name === players[i].name) {
+          break;
+        }
+      }
+      players[i] = data;
+    }
+    should_render = true;
+  });
+  socket.on('getmap', function(data) {
+    areamap = data.areamap;
+    should_render = true;
+  });
+  socket.on('name', function(data) {
+    myname = data.name;
+  });
+  socket.emit('name', {});
+  socket.emit('getmap', {});
+  </script> 
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #c3c3c3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+<script>
+    var boxman = {
+        x: 0,
+        y: 0,
+        newx: 0,
+        newy: 0
+    };
+
+    var should_render = true;
+    var keysDown = {};
+    var myname = "";
+    var areamap = "";
+    players = new Array();
+
+    addEventListener("keydown", function (e) {
+        keysDown[e.keyCode] = true;
+    }, false);
+
+    addEventListener("keyup", function (e) {
+        delete keysDown[e.keyCode];
+    }, false);
+
+    var c = document.getElementById("myCanvas");
+
+    var ctx = c.getContext("2d");
+
+    var update = function () { 
+        if (38 in keysDown) { // Player holding up
+            boxman.newy = boxman.y - 1;
+            boxman.newx = boxman.x;
+        }
+        if (40 in keysDown) { // Player holding down
+            boxman.newy = boxman.y + 1;
+            boxman.newx = boxman.x;
+        }
+        if (37 in keysDown) { // Player holding left
+            boxman.newy = boxman.y;
+            boxman.newx = boxman.x - 1;
+        }
+        if (39 in keysDown) { // Player holding right
+            boxman.newx = boxman.x + 1;
+            boxman.newy = boxman.y;
+        }
+        if (boxman.newy < 0) {
+            boxman.newy = 0;
+        }
+        if (boxman.newx < 0) {
+            boxman.newx = 0;
+        }
+        if (boxman.newy > 4) {
+            boxman.newy = 4;
+        }
+        if (boxman.newx > 4) {
+            boxman.newx = 4;
+        }
+    };
+    
+    var render = function () {
+      if (should_render) {
+        ctx.clearRect(0,0,500,500);
+        for(var i = 0; i < areamap.length; i++) {
+            var x = i % 5;
+            var y = (i - x)/ 5;
+            if (areamap[i] == 'A') {
+        ctx.fillStyle = "#71cf90";
+            } else if (areamap[i] == 'B') {
+        ctx.fillStyle = "#c5c678";
+            } else if (areamap[i] == 'C') {
+        ctx.fillStyle = "#7b5b46";
+            }
+            ctx.fillRect(x * 100, y * 100, 100, 100);
+        }
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(boxman.x * 100, boxman.y * 100, 100, 100);
+        for (var x = 0; x <= 500; x += 100) {
+            ctx.moveTo(0.5 + x, 0);
+            ctx.lineTo(0.5 + x, 500);
+        }
+        for (var i = 0; i < players.length; i++) {
+           player = players[i];
+           ctx.fillRect(player.xpos * 100, player.ypos * 100, 100, 100);
+        }
+
+        for (var x = 0; x <= 500; x += 100) {
+            ctx.moveTo(0, 0.5 + x);
+            ctx.lineTo(500, 0.5 + x);
+        }
+
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        should_render = false;
+      }
+    };
+
+    var main = function () {
+        update();
+        render();
+    };
+
+    var move = function () {
+        if (boxman.newx != boxman.x || boxman.newy != boxman.y) {
+          socket.emit('move', { xpos: boxman.newx, ypos: boxman.newy});
+        }
+    };
+
+    setInterval(main, 1);
+
+    setInterval(move,500);
+
+</script>
+  </body>
+</html>
+

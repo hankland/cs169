@@ -7,11 +7,15 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , handlers = require('./handlers')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
-  , account = require('./routes/account.js');
+  , account = require('./routes/account.js')
+  , play = require('./routes/play.js');
 
 var app = express();
+var cookieParser = express.cookieParser('your secret here')
+  , sessionStore = new express.session.MemoryStore();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -21,8 +25,8 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
-  app.use(express.session());
+  app.use(cookieParser);
+  app.use(express.session({store: sessionStore}));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -35,7 +39,18 @@ app.get('/', routes.index);
 app.post('/login', login);
 app.get('/account', account);
 app.get('/logout', logout);
+app.get('/play', play);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+io = require('socket.io').listen(server);
+
+var SessionSockets = require('session.socket.io')
+  , sessionSockets = new SessionSockets(io,sessionStore,cookieParser);
+
+
+sessionSockets.on('connection', handlers);
+
+

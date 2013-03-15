@@ -9,6 +9,8 @@
     "express": "3.1.0",
     "ejs": "*",
     "sequelize": "latest",
-    "pg": "latest"
+    "pg": "latest",
+    "socket.io": "latest",
+    "session.socket.io": "latest"
   }
 }
