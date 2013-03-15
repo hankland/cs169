@@ -5,14 +5,15 @@ module.exports = function(req, res) {
   res.type('application/json');
   console.log("LOGIN: Printing session data...\n" + req.session.user);
   if (!req.session.user && req.body.user) {
-    User.find({where: {username: req.body.user}}).success( function(u) {
+    User.find({where: {username: req.body.user}}).success(function(u) {
       console.log("LOGIN: Checking if user actually exists...");
       if (u != null) {
         console.log("LOGIN: Checking if password is correct...");
         if (req.body.password == u.password) {
           console.log("LOGIN: Login successful!");
           req.session.user = u.id;
-          res.json({err: User.SUCCESS});
+          console.log("login: " + req.session.user);
+          res.json({user: u});
         } else { /* BAD PASSWORD ERROR */
           console.log("LOGIN: Wrong password provided... (FAILURE)");
           res.json({err: User.BAD_PASSWORD_ERROR});

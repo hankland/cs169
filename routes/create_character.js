@@ -8,29 +8,26 @@ module.exports = function(req, res) {
     var user = User.find(req.session.user);
     var job = req.body.job;
     var area = null; // TO-DO: should be some particular initial area
-    Character.find({where: {name: req.body.name}}).success(function(c) {
+    Character.find({where: {name: req.body.name}}).success(function(character) {
       console.log("CREATE_CHARACTER: Checking if character name doesn't already exist...");
-      if (c == null) {
-        Character.build({name: req.body.name, xpos: 0, ypos: 0})
-          .success(function (c) { // TO-DO: should set xpos and ypos to some particular initial coordinates
-            c.setUser(user);
-            c.setClass(job);
-            c.setArea(area);
-            console.log("CREATE_CHARACTER: Checking if character details are valid...");
-            c.validate()
-              .success(function() {
-                console.log("CREATE_CHARACTER: Character creation successful!");
-                c.save();
-                res.json({character: c});
-              })
-              .error(function() {
-                console.log("CREATE_CHARACTER: Invalid character details... (FAILURE)");
-                res.json({err: -10});
-              });
-          });
+      if (character == null) {
+        var c = Character.build({name: req.body.name, xpos: 0, ypos: 0}); // TO-DO: should set xpos and ypos to some particular initial coordinates
+        c.setUser(user);
+        c.setClass(job);
+        c.setArea(area);
+        console.log("CREATE_CHARACTER: Checking if character details are valid...");
+        var errors = c.validate();
+	if (!errors) {
+          console.log("CREATE_CHARACTER: Character creation successful!");
+          c.save();
+          res.json({character: c});
+        } else {
+          console.log("CREATE_CHARACTER: Invalid character details... (FAILURE)");
+          res.json({err: -10});
+        }
       } else { /* CHARACTER NAME ALREADY EXISTS ERROR */
         console.log("CREATE_CHARACTER: Name already exists... (FAILURE)");
-        res.json({err: Character.NAME_EXISTS_ERROR});
+        res.json({err: -10});
       }
     });
   } else { /* NOT LOGGED IN ERROR */

@@ -5,8 +5,8 @@ module.exports = function(req, res) {
   console.log(JSON.stringify(req.body));
   console.log("SELECT_CHARACTER: Printing session data...\n" + req.session.user);
   if (req.session.user) {
-    var user = User.find(req.session.user)
-      .success(function(u) {
+    User.find(req.session.user)
+      .success(function(user) {
         var character = req.body.character;
         console.log("SELECT_CHARACTER: Checking if logged-in user owns requested character...");
         user.hasCharacter(character)
@@ -15,7 +15,7 @@ module.exports = function(req, res) {
               // TO-DO: render overworld
               // TO-DO: return json stuff
               console.log("SELECT_CHARACTER: Successfully selected character. Entering game...");
-              res.json({err: 1});
+              res.json({character: character});
             } else { /* DOESN'T OWN CHARACTER ERROR */
               console.log("SELECT_CHARACTER: User doesn't own character... (FAILURE)");
               res.json({err: -10});

@@ -11,7 +11,7 @@
   username: <input type="text" id=username></br>
   password: <input type="password" id=password></br>
   <input type="button" value="Login" onclick="javascript:post('/login', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
-	<input type="button" value="Register" onclick="javascript:post('/register', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
+  <input type="button" value="Register" onclick="javascript:post('/register', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
   </body>
 </html>
 
