@@ -4,7 +4,7 @@ Class = require('./models').Class;
 Character = require('./models').Character;
 
 module.exports = function(err, socket, session) {
-  if (!session || !session.user ) { //|| !session.character) {
+  if (!session || !session.user || !session.character) {
     socket.disconnect();
     return;
   }
@@ -17,7 +17,7 @@ module.exports = function(err, socket, session) {
   });
 
   socket.on('move', function(data) {
-    Character.find(1).success( function(c) {
+    Character.find(session.character).success( function(c) {
       if (data.xpos >= 0 && data.xpos < 5 && data.ypos >= 0 && data.ypos < 5) {
         c.xpos = data.xpos;
         c.ypos = data.ypos;
@@ -27,7 +27,7 @@ module.exports = function(err, socket, session) {
     });
   });
   socket.on('name', function(data) {
-    Character.find(1).success( function(c) {
+    Character.find(session.character).success( function(c) {
       socket.emit('name', {name: c.name});
     });
   });

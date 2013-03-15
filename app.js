@@ -11,6 +11,8 @@ var express = require('express')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
   , account = require('./routes/account.js')
+  , create_character = require('./routes/create_character.js')
+  , select_character = require('./routes/select_character.js')
   , play = require('./routes/play.js')
   , register = require('./routes/register.js'); /* SH: ADDED */
 
@@ -43,7 +45,8 @@ app.get('/account', account);
 app.get('/logout', logout);
 app.get('/play', play);
 app.post('/register', register); /* SH: ADDED */
-
+app.post('/create_character', create_character);
+app.post('/select_character', select_character);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

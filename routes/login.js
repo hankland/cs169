@@ -4,7 +4,7 @@ module.exports = function(req, res) {
   console.log(JSON.stringify(req.body));
   res.type('application/json');
   console.log("LOGIN: Printing session data...\n" + req.session.user);
-  if (!req.session.user && req.body.user) {
+  if (req.body.user) {
     User.find({where: {username: req.body.user}}).success(function(u) {
       console.log("LOGIN: Checking if user actually exists...");
       if (u != null) {

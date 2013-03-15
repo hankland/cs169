@@ -3,9 +3,11 @@ module.exports = function(req, res){
     res.redirect("/");
   } else {
     User.find(req.session.user).success(function f(u) {
-      res.render('account', {
-        title: "A New MMORPG",
-        username: u.username
+      u.getCharacters().success(function (charArray) {
+        res.render('account', {
+          username: u.username,
+          characters: charArray
+        });
       });
     });
   }

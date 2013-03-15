@@ -26,6 +26,9 @@
   socket.on('name', function(data) {
     myname = data.name;
   });
+  socket.on('disconnect', function() {
+    alert("You've been disconnected - make sure you are logged in and you selected a character");
+  });
   socket.emit('name', {});
   socket.emit('getmap', {});
   </script> 
