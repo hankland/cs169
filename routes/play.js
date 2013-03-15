@@ -1,4 +1,7 @@
 module.exports = function(req, res){
-  res.render('play', {} );
+  if (!req.session.user || !req.session.character) {
+    res.redirect("/");
+  } else {
+    res.render('play', {});
+  }
 };
-

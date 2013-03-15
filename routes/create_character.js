@@ -18,18 +18,18 @@ module.exports = function(req, res) {
             req.session.character = c.id;
           });
           res.json({err: 0});
-        } else {
+        } else { /* INVALID CHARACTER DETAILS ERROR */
           console.log("CREATE_CHARACTER: Invalid character details... (FAILURE)");
-          res.json({err: -10});
+          res.json({err: Character.BAD_CHARACTER_ERROR});
         }
       } else { /* CHARACTER NAME ALREADY EXISTS ERROR */
-        console.log("CREATE_CHARACTER: Name already exists... (FAILURE)");
-        res.json({err: -10});
+        console.log("CREATE_CHARACTER: Character name already exists... (FAILURE)");
+        res.json({err: Character.EXISTS_ERROR});
       }
     });
   } else { /* NOT LOGGED IN ERROR */
     console.log("CREATE_CHARACTER: User isn't logged in... (FAILURE)");
-    res.json({err: -10});
+    res.json({err: -999});
   }
 }
 

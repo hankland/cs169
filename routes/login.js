@@ -4,7 +4,7 @@ module.exports = function(req, res) {
   console.log(JSON.stringify(req.body));
   res.type('application/json');
   console.log("LOGIN: Printing session data...\n" + req.session.user);
-  if (req.body.user) {
+  if (!req.session.user) {
     User.find({where: {username: req.body.user}}).success(function(u) {
       console.log("LOGIN: Checking if user actually exists...");
       if (u != null) {
@@ -12,7 +12,6 @@ module.exports = function(req, res) {
         if (req.body.password == u.password) {
           console.log("LOGIN: Login successful!");
           req.session.user = u.id;
-          console.log("login: " + req.session.user);
           res.json({user: u});
         } else { /* BAD PASSWORD ERROR */
           console.log("LOGIN: Wrong password provided... (FAILURE)");
@@ -20,12 +19,12 @@ module.exports = function(req, res) {
         }
       } else { /* USER DOESN'T EXIST ERROR */
         console.log("LOGIN: User doesn't exist... (FAILURE)");
-        res.json({err: User.BAD_USER_ERROR});
+        res.json({err: User.NOT_EXISTS_ERROR});
       }
     });
-  } else { /* BAD REQUEST ERROR */
-    console.log("LOGIN: Bad request... (FAILURE)");
-    res.json({err: User.UNKNOWN_ERROR});
+  } else { /* NOT LOGGED IN ERROR */
+    console.log("LOGIN: User isn't logged in... (FAILURE)");
+    res.json({err: -999});
   }
 }
 

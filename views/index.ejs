@@ -9,15 +9,15 @@
    
   <center>
   <h1>A NEW MMO</h1>
-<div id="login" style="width:300px;height:200px;padding:5px 5px 5px 5px;margin:5px 5px 5px 5px;border:5px solid blue;background-color:lightgreen;" class="box">
-  <center>
-	<b><div id="logintext" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid blue;background-color:skyblue" class="message"></div></b>
-  <form>
-  Username: <input type="text" id=username></br>
-  Password: <input type="password" id=password></br>
-  <input type="button" value="Login" onclick="javascript:post('/login', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
-  <input type="button" value="Register" onclick="javascript:post('/register', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
-  </center>
+  <div id="login" style="width:300px;height:200px;padding:5px 5px 5px 5px;margin:5px 5px 5px 5px;border:5px solid blue;background-color:lightgreen;" class="box">
+    <center>
+    <div id="logintext" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid blue;background-color:skyblue" class="message"><b>Please login or register to play!</b></div>
+    <form>
+    Username: <input type="text" id=username></br>
+    Password: <input type="password" id=password></br>
+    <input type="button" value="Login" onclick="javascript:post('/login', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
+    <input type="button" value="Register" onclick="javascript:post('/register', {user: $('#username').val(), password: $('#password').val()}, function f(data) { window.location.href = '/account'; })">
+    </center>
   </div>
   </center>
   </body>

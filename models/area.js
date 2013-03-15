@@ -1,8 +1,17 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Area', {
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    areamap: DataTypes.TEXT 
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: true
+      }
+    },
+    description: {
+      type: DataTypes.TEXT
+    },
+    areamap: {
+      type: DataTypes.TEXT
+    }
   })
 }
 

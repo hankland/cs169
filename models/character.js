@@ -5,10 +5,10 @@ var MIN_NAME_LENGTH = 1;
 var MAX_NAME_LENGTH = 16;
 
 /* Error codes. */
-var SUCCESS = 1;
-var UNKNOWN_ERROR = -1; /* Generic catch-all error for now. */
-var NAME_EXISTS_ERROR = -2; /* Character name already exists. */
-var BAD_NAME_ERROR = -3; /* Generic name-related error. */
+var SUCCESS = 0;
+var BAD_CHARACTER_ERROR = -200; /* Generic error for failed validations. */
+var EXISTS_ERROR = -210; /* Character name already exists. */
+var NOT_SELECTED_ERROR = -220; /* A character hasn't been selected. */
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Character', {

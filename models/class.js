@@ -1,7 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Class', {
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: true
+      }
+    },
+    description: {
+      type: DataTypes.TEXT
+    }
   })
 }
 

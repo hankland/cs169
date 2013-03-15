@@ -4,7 +4,7 @@ module.exports = function(req, res) {
   console.log(JSON.stringify(req.body));
   res.type('application/json');
   console.log("REGISTER: Printing session data...\n" + req.session.user);
-  if (!req.session.user && req.body.user && req.body.password) {
+  if (!req.session.user) {
     User.find({where: {username: req.body.user}}).success(function(user) {
       console.log("REGISTER: Checking if user doesn't already exist...");
       if (user == null) {
@@ -20,16 +20,16 @@ module.exports = function(req, res) {
           });
         } else { /* INVALID USERNAME/PASSWORD ERROR */
           console.log("REGISTER: Invalid username and/or password... (FAILURE)");
-          res.json({err: User.UNKNOWN_ERROR});
+          res.json({err: User.BAD_USER_ERROR});
         }
       } else { /* USER ALREADY EXISTS ERROR */
         console.log("REGISTER: User with name already exists... (FAILURE)");
-        res.json({err: User.BAD_USER_ERROR});
+        res.json({err: User.EXISTS_ERROR});
       }
     });
-  } else { /* BAD REQUEST ERROR */
-    console.log("REGISTER: Bad request... (FAILURE)");
-    res.json({err: User.UNKNOWN_ERROR});
+  } else { /* NOT LOGGED IN ERROR */
+    console.log("REGISTER: User isn't logged in... (FAILURE)");
+    res.json({err: -999});
   }
 }
 
