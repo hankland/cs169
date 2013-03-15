@@ -12,6 +12,7 @@ var express = require('express')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
   , account = require('./routes/account.js')
+<<<<<<< HEAD
   , create_character = require('./routes/create_character.js')
   , select_character = require('./routes/select_character.js')
   , play = require('./routes/play.js')
@@ -21,6 +22,14 @@ var express = require('express')
   , update_experience = require('./routes/update_experience.js')
   , flee = require('./routes/battle_commands.js').flee;
 
+=======
+  /* SH: ADDED */
+  , register = require('./routes/register.js')
+  , charactercreation = require('./routes/character_creation.js')
+  , createcharacter = require('./routes/create_character.js')
+  , selectcharacter = require('./routes/select_character.js')
+  , play = require('./routes/play.js');
+>>>>>>> last commit for sol branch, will work with integrated master branch
 
 var app = express();
 var cookieParser = express.cookieParser('your secret here')
@@ -50,6 +59,7 @@ app.get('/', routes.index);
 app.post('/register', register);
 app.post('/login', login);
 app.get('/logout', logout);
+<<<<<<< HEAD
 app.get('/account', account);
 app.post('/create_character', create_character);
 app.post('/select_character', select_character);
@@ -59,6 +69,16 @@ app.post('/attack', attack);
 app.get('/end_battle', end_battle);
 app.post('/update_experience', update_experience);
 app.post('/flee', flee);
+=======
+/* SH: ADDED */
+app.post('/register', register);
+app.get('/character_creation', charactercreation);
+app.post('/create_character', createcharacter);
+app.post('/select_character', selectcharacter);
+app.get('/play', play);
+
+
+>>>>>>> last commit for sol branch, will work with integrated master branch
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

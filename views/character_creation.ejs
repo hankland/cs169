@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type='text/javascript' src="/javascripts/post.js"></script>
+  </head>
+  <body>
+    <div id="charactercreationbox">
+    <h1>Create your character, <b><%= username %></b>!</h1>
+    <form>
+    character name: <input id="charactername" type="text"><br />
+    character class: <select id="classlist" id=style="width: 300px">
+      <option value="dummy">Dummy</option>
+      <% for (var i = 0; i < jobs.length; i++) { %>
+        <option value=<%= jobs[i] %>><%= jobs[i] %></option>
+      <% } %>
+    </select><br />
+    <input id="createbutton" type="button" value="Finish" onclick="javascript:post('/create_character', {name: $('#charactername').val(), job: document.getElementById('classlist').value}, function f(data) { window.location.href = '/account'; })">
+    <input id="cancelbutton" type="button" value="Cancel" onclick="window.location.href = '/account'"><!-- ADD -->
+
+  </body>
+</html>
+

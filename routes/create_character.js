@@ -1,6 +1,11 @@
 User = require('../models').User;
 Character = require('../models').Character;
 
+/* REQ should contain:
+ *  req.session.user: The currently logged-in user.
+ *  req.body.job: The desired job/class name.
+ *  req.body.job: The desired character name.
+ */
 module.exports = function(req, res) {
   if (req.session.user) {
     Character.find({where: {name: req.body.name}}).success(function(character) {
