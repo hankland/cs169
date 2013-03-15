@@ -14,6 +14,7 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Character', {
     name: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         notNull: true,
         len: [MIN_NAME_LENGTH, MAX_NAME_LENGTH]

@@ -8,15 +8,19 @@ module.exports = function(req, res) {
     User.find({where: {username: req.body.user}}).success( function(u) {
       console.log("REGISTER: Checking if user doesn't already exist...");
       if (u == null) {
-        User.create({username: req.body.user, password: req.body.password})
-	  .success(function f(u) {
-            console.log("REGISTER: Registration successful!");
-            req.session.user = u.id;
-            res.json({err: User.SUCCESS});
-          })
-          .error(function f(u) {
-            console.log("REGISTER: Bad username and/or password... (FAILURE)");
-            res.json({err: User.UNKNOWN_ERROR});
+        User.build({username: req.body.user, password: req.body.password})
+	  .success(function(u) {
+            console.log("REGISTER: Checking if given username and password are valid entries...");
+            var errors = u.validate();
+            if (!errors) {
+              console.log("REGISTER: Registration successful!");
+              u.save();
+              req.session.user = u.id;
+              res.json({err: User.SUCCESS});
+            } else { /* INVALID USERNAME/PASSWORD ERROR */
+              console.log("REGISTER: Invalid username and/or password... (FAILURE)");
+              res.json({err: User.UNKNOWN_ERROR});
+            }
           });
       } else { /* USER ALREADY EXISTS ERROR */
         console.log("REGISTER: User with name already exists... (FAILURE)");

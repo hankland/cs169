@@ -3,7 +3,7 @@ User = require('../models').User;
 module.exports = function(req, res) {
   console.log(JSON.stringify(req.body));
   res.type('application/json');
-  console.log("REGISTER: Printing session data...\n" + req.session.user);
+  console.log("LOGIN: Printing session data...\n" + req.session.user);
   if (!req.session.user && req.body.user) {
     User.find({where: {username: req.body.user}}).success( function(u) {
       console.log("LOGIN: Checking if user actually exists...");
