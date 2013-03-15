@@ -11,7 +11,9 @@ var express = require('express')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
   , account = require('./routes/account.js')
-  , play = require('./routes/play.js');
+  , play = require('./routes/play.js')
+  , register = require('./routes/register.js'); /* SH: ADDED */
+
 
 var app = express();
 var cookieParser = express.cookieParser('your secret here')
@@ -40,6 +42,8 @@ app.post('/login', login);
 app.get('/account', account);
 app.get('/logout', logout);
 app.get('/play', play);
+app.post('/register', register); /* SH: ADDED */
+
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
