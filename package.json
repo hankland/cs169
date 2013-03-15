@@ -12,6 +12,7 @@
     "pg": "latest",
     "socket.io": "latest",
     "session.socket.io": "latest",
-    "mocha": "latest"
+    "mocha": "latest",
+    "should": "latest"
   }
 }
