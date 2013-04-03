@@ -21,14 +21,69 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     xpos: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     ypos: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-		level: {
-			type: DataTypes.INTEGER
-		}
+    level: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
+    experience: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    inventory: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+    },
+    health_points: {
+      type: DataTypes.INTEGER,
+      defaultValue: 100
+    },
+    magic_points: {
+      type: DataTypes.INTEGER,
+      defaultValue: 100
+    },
+    physical_attack: {
+      type: DataTypes.INTEGER,
+      defaultValue: 10
+    },
+    magic_attack: {
+      type: DataTypes.INTEGER,
+      defaultValue: 10
+    },
+    physical_defense: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
+    magic_defense: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
+    current_health_points: {
+      type: DataTypes.INTEGER,
+      defaultValue: this.health_points
+    },
+    current_magic_points: {
+      type: DataTypes.INTEGER,
+      defaultValue: this.magic_points
+    }
+  }, {
+    instanceMethods: {
+      attack: function(target) {
+        var physicalAttack = this.physical_attack;
+        var physicalDefense = target.physical_defense;
+        var damage = physicalAttack - physicalDefense;
+        if (damage < 0) {
+          damage = 0;
+        }
+        target.current_health_points = target.current_health_points - damage;
+        target.save();
+      }
+    }
   });
 }
 

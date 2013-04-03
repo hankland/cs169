@@ -18,8 +18,9 @@
 
       <div id="enemy" style="width:33%;float:center">
         <p>
-          HP: <%=HP></br>
-          Conditions:
+          HP: <%= monster.current_health_points %> / <%= monster.health_points %></br>
+          MP: <%= monster.current_magic_points %> / <%= monster.magic_points %></br>
+          Conditions: N/A
         </p>
       </div>
     </div>
@@ -27,9 +28,9 @@
     
       <div id="ally" style="width:33%;float:center">
         <p>
-          HP: <%=HP></br>
-          MP: <%=MP></br>
-          Conditions:
+          HP: <%= character.current_health_points %> / <%= character.health_points %></br>
+          MP: <%= character.current_magic_points %> / <%= character.magic_points %></br>
+          Conditions: N/A
         </p>
       </div>
     </div>

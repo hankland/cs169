@@ -8,7 +8,7 @@ module.exports = function(req, res) {
     Character.find({where: {name: req.body.name}}).success(function(character) {
       console.log("CREATE_CHARACTER: Checking if character name doesn't already exist...");
       if (character == null) {
-        var c = Character.build({name: req.body.name, xpos: 0, ypos: 0}); // TO-DO: should set xpos and ypos to some particular initial coordinates
+        var c = Character.build({name: req.body.name});
         c.UserId = req.session.user;
         console.log("CREATE_CHARACTER: Checking if character details are valid...");
         var errors = c.validate();
@@ -20,11 +20,11 @@ module.exports = function(req, res) {
           res.json({err: 0});
         } else { /* INVALID CHARACTER DETAILS ERROR */
           console.log("CREATE_CHARACTER: Invalid character details... (FAILURE)");
-          res.json({err: Character.BAD_CHARACTER_ERROR});
+          res.json({err: -200});
         }
       } else { /* CHARACTER NAME ALREADY EXISTS ERROR */
         console.log("CREATE_CHARACTER: Character name already exists... (FAILURE)");
-        res.json({err: Character.EXISTS_ERROR});
+        res.json({err: -210});
       }
     });
   } else { /* NOT LOGGED IN ERROR */

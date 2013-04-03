@@ -11,9 +11,12 @@ var User = sequelize.import(__dirname + '/models/user');
 var Character = sequelize.import(__dirname + '/models/character');
 var Area = sequelize.import(__dirname + '/models/area');
 var Class = sequelize.import(__dirname + '/models/class');
+var Monster = sequelize.import(__dirname + '/models/monster');
+var Item = sequelize.import(__dirname + '/models/item');
 
 Class.hasMany(Character);
 User.hasMany(Character);
+User.hasMany(Item);
 Area.hasMany(Character);
 
 

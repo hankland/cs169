@@ -8,13 +8,14 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , handlers = require('./handlers')
+  , register = require('./routes/register.js')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
   , account = require('./routes/account.js')
   , create_character = require('./routes/create_character.js')
   , select_character = require('./routes/select_character.js')
   , play = require('./routes/play.js')
-  , register = require('./routes/register.js'); /* SH: ADDED */
+  , battle = require('./routes/battle.js');
 
 
 var app = express();
@@ -42,13 +43,14 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.post('/register', register);
 app.post('/login', login);
-app.get('/account', account);
 app.get('/logout', logout);
-app.get('/play', play);
-app.post('/register', register); /* SH: ADDED */
+app.get('/account', account);
 app.post('/create_character', create_character);
 app.post('/select_character', select_character);
+app.get('/play', play);
+app.get('/battle', battle);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

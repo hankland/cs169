@@ -1,150 +1,191 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <title>A New MMO</title>
   </head>
   <body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-  var socket = io.connect('/');
-  socket.on('move', function(data) {
-    if (data.name === myname) {
-      boxman.x = boxman.newx = data.xpos;
-      boxman.y = boxman.newy = data.ypos;
-    } else {
-      for (var i = 0; i < players.length; i++) {
-        if (data.name === players[i].name) {
-          break;
-        }
-      }
-      players[i] = data;
-    }
-    should_render = true;
-  });
-  socket.on('getmap', function(data) {
-    areamap = data.areamap;
-    should_render = true;
-  });
-  socket.on('name', function(data) {
-    myname = data.name;
-  });
-  socket.on('disconnect', function() {
-    alert("You've been disconnected - make sure you are logged in and you selected a character");
-  });
-  socket.emit('name', {});
-  socket.emit('getmap', {});
-  </script> 
-<canvas id="myCanvas" width="500" height="500" style="border:1px solid #c3c3c3;">
-Your browser does not support the HTML5 canvas tag.
-</canvas>
-<script>
-    var boxman = {
-        x: 0,
-        y: 0,
-        newx: 0,
-        newy: 0
-    };
+    <center>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('/');
 
-    var should_render = true;
-    var keysDown = {};
-    var myname = "";
-    var areamap = "";
-    players = new Array();
-
-    addEventListener("keydown", function (e) {
-        keysDown[e.keyCode] = true;
-    }, false);
-
-    addEventListener("keyup", function (e) {
-        delete keysDown[e.keyCode];
-    }, false);
-
-    var c = document.getElementById("myCanvas");
-
-    var ctx = c.getContext("2d");
-
-    var update = function () { 
-        if (38 in keysDown) { // Player holding up
-            boxman.newy = boxman.y - 1;
-            boxman.newx = boxman.x;
-        }
-        if (40 in keysDown) { // Player holding down
-            boxman.newy = boxman.y + 1;
-            boxman.newx = boxman.x;
-        }
-        if (37 in keysDown) { // Player holding left
-            boxman.newy = boxman.y;
-            boxman.newx = boxman.x - 1;
-        }
-        if (39 in keysDown) { // Player holding right
-            boxman.newx = boxman.x + 1;
-            boxman.newy = boxman.y;
-        }
-        if (boxman.newy < 0) {
-            boxman.newy = 0;
-        }
-        if (boxman.newx < 0) {
-            boxman.newx = 0;
-        }
-        if (boxman.newy > 4) {
-            boxman.newy = 4;
-        }
-        if (boxman.newx > 4) {
-            boxman.newx = 4;
-        }
-    };
-    
-    var render = function () {
-      if (should_render) {
-        ctx.clearRect(0,0,500,500);
-        for(var i = 0; i < areamap.length; i++) {
-            var x = i % 5;
-            var y = (i - x)/ 5;
-            if (areamap[i] == 'A') {
-        ctx.fillStyle = "#71cf90";
-            } else if (areamap[i] == 'B') {
-        ctx.fillStyle = "#c5c678";
-            } else if (areamap[i] == 'C') {
-        ctx.fillStyle = "#7b5b46";
+      /* Move the appropriate character on the overworld. */
+      socket.on('move', function(data) {
+        if (data.name === myname) {
+          boxman.x = boxman.newx = data.xpos;
+          boxman.y = boxman.newy = data.ypos;
+          // TEMPORARY: Random battle encounters
+          var battleDice = Math.floor((Math.random() * ENCOUNTER_RATE) + 1);
+          if (battleDice == ENCOUNTER_RATE) {
+            // do something
+            alert("BATTLE TIME! (supposed to be)");
+          }
+        } else {
+          for (var i = 0; i < players.length; i++) {
+            if (data.name === players[i].name) {
+              break;
             }
-            ctx.fillRect(x * 100, y * 100, 100, 100);
+          }
+          players[i] = data;
         }
-        ctx.fillStyle = "#FF0000";
-        ctx.fillRect(boxman.x * 100, boxman.y * 100, 100, 100);
-        for (var x = 0; x <= 500; x += 100) {
-            ctx.moveTo(0.5 + x, 0);
-            ctx.lineTo(0.5 + x, 500);
+        should_render = true;
+      });
+
+      /* Update the area and render it. */
+      socket.on('getmap', function(data) {
+        areamap = data.areamap;
+        should_render = true;
+      });
+
+      /* Retrieve character name. */
+      socket.on('name', function(data) {
+        myname = data.name;
+      });
+
+      /* Disconnect from the game. */
+      socket.on('disconnect', function() {
+        alert("You've been disconnected - "
+          + "make sure you are logged in and you selected a character.");
+      });
+
+      /* Emit stuff. */
+      socket.emit('name', {});
+      socket.emit('getmap', {});
+    </script>
+
+    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #c3c3c3;">
+    Your browser does not support the HTML5 canvas tag.
+    </canvas>
+
+    <script>
+      var boxman = {
+          x: <%= character.xpos %>,
+          y: <%= character.ypos %>,
+          newx: <%= character.xpos %>,
+          newy: <%= character.ypos %>
+      };
+
+      var should_render = true;
+      var keysDown = {};
+      var myname = "";
+      var areamap = "";
+      players = new Array();
+
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+
+      var AREA_WIDTH = 5; // x-dimension size
+      var AREA_HEIGHT = 5; // y-dimension size
+      var TILE_SIZE = 100; // side of a single area tile
+      var ENCOUNTER_RATE = 25; // odds of random battle encounter (higher => less likely)
+      
+      /* Handles key presses. */
+      addEventListener("keydown", function (e) {
+          keysDown[e.keyCode] = true;
+      }, false);
+
+      /* Handles key releases. */
+      addEventListener("keyup", function (e) {
+          delete keysDown[e.keyCode];
+      }, false);      
+
+      /* Update character location information. */
+      var update = function () { 
+          if (38 in keysDown) { // Player holding up
+              boxman.newy = boxman.y - 1;
+              boxman.newx = boxman.x;
+          }
+          if (40 in keysDown) { // Player holding down
+              boxman.newy = boxman.y + 1;
+              boxman.newx = boxman.x;
+          }
+          if (37 in keysDown) { // Player holding left
+              boxman.newy = boxman.y;
+              boxman.newx = boxman.x - 1;
+          }
+          if (39 in keysDown) { // Player holding right
+              boxman.newx = boxman.x + 1;
+              boxman.newy = boxman.y;
+          }
+          // Prevent character from passing area boundaries
+          if (boxman.newy < 0) { boxman.newy = 0; }
+          if (boxman.newx < 0) { boxman.newx = 0; }
+          if (boxman.newy >= AREA_HEIGHT) { boxman.newy = AREA_HEIGHT - 1; }
+          if (boxman.newx >= AREA_WIDTH) { boxman.newx = AREA_WIDTH - 1; }
+      };
+      
+      /* Draw out the game overworld. */
+      var render = function () {
+        if (should_render) {
+          ctx.clearRect(0, 0, TILE_SIZE * AREA_WIDTH, TILE_SIZE * AREA_HEIGHT);
+
+          // Draw the area's terrain
+          for(var i = 0; i < areamap.length; i++) {
+              var x = i % AREA_WIDTH;
+              var y = (i - x) / AREA_HEIGHT;
+              if (areamap[i] == 'A') {
+                ctx.fillStyle = "#71cf90";
+              } else if (areamap[i] == 'B') {
+                ctx.fillStyle = "#c5c678";
+              } else if (areamap[i] == 'C') {
+                ctx.fillStyle = "#7b5b46";
+              }
+              ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+          }
+
+          // Draw currently logged-in character
+          ctx.fillStyle = "#FF0000";
+          ctx.fillRect(boxman.x * TILE_SIZE, boxman.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+
+          // Draw all other characters
+          for (var i = 0; i < players.length; i++) {
+             player = players[i];
+             ctx.fillRect(player.xpos * TILE_SIZE, player.ypos * TILE_SIZE,
+                          TILE_SIZE, TILE_SIZE);
+          }
+
+          // Draw the area's grid
+          for (var x = 0; x <= AREA_WIDTH * TILE_SIZE; x += TILE_SIZE) {
+              ctx.moveTo(x, 0);
+              ctx.lineTo(x, AREA_HEIGHT * TILE_SIZE);
+          }
+          for (var y = 0; y <= AREA_HEIGHT * TILE_SIZE; y += TILE_SIZE) {
+              ctx.moveTo(0, y);
+              ctx.lineTo(AREA_WIDTH * TILE_SIZE, y);
+          }
+          ctx.strokeStyle = "black";
+          ctx.stroke();
+
+          should_render = false;
         }
-        for (var i = 0; i < players.length; i++) {
-           player = players[i];
-           ctx.fillRect(player.xpos * 100, player.ypos * 100, 100, 100);
-        }
+      };
 
-        for (var x = 0; x <= 500; x += 100) {
-            ctx.moveTo(0, 0.5 + x);
-            ctx.lineTo(500, 0.5 + x);
-        }
+      /* Update character information and graphical display. */
+      var main = function () {
+          update();
+          render();
+      };
 
-        ctx.strokeStyle = "black";
-        ctx.stroke();
-        should_render = false;
-      }
-    };
+      /* Move the character's location, if desired. */
+      var move = function () {
+          if (boxman.newx != boxman.x || boxman.newy != boxman.y) {
+            socket.emit('move', { xpos: boxman.newx, ypos: boxman.newy});
+          }
+      };
 
-    var main = function () {
-        update();
-        render();
-    };
+      /* Set the rate at which we should call each method. */
+      setInterval(main, 1);
+      setInterval(move, 250);
+    </script>
 
-    var move = function () {
-        if (boxman.newx != boxman.x || boxman.newy != boxman.y) {
-          socket.emit('move', { xpos: boxman.newx, ypos: boxman.newy});
-        }
-    };
-
-    setInterval(main, 1);
-
-    setInterval(move,500);
-
-</script>
+    <div id="menu">
+      <form>
+        <p>
+          <input id="choose" type="button" value="Logout" onclick="window.location.href ='/logout';">
+        </p>
+      </form>
+    </div>
+    </center>
   </body>
 </html>
 

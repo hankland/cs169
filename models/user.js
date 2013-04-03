@@ -7,11 +7,11 @@ var MIN_PASSWORD_LENGTH = 1;
 var MAX_PASSWORD_LENGTH = 16;
 
 /* Error codes. */
-var SUCCESS = 0;
-var BAD_USER_ERROR = -100; /* Generic error for failed validation. */
-var BAD_PASSWORD_ERROR = -101; /* Incorrect password for given user. */
-var EXISTS_ERROR = -110; /* User already exists. */
-var NOT_EXISTS_ERROR = -111; /* User doesn't exist. */
+SUCCESS = 0;
+BAD_USER_ERROR = -100; /* Generic error for failed validation. */
+BAD_PASSWORD_ERROR = -101; /* Incorrect password for given user. */
+EXISTS_ERROR = -110; /* User already exists. */
+NOT_EXISTS_ERROR = -111; /* User doesn't exist. */
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('User', {

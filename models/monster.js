@@ -1,14 +1,8 @@
-/* CHARACTER MODEL. */
+/* MONSTER MODEL. */
 
 /* Some constants I've added for now. */
 var MIN_NAME_LENGTH = 1;
 var MAX_NAME_LENGTH = 16;
-
-/* Error codes. */
-var SUCCESS = 0;
-var BAD_CHARACTER_ERROR = -200; /* Generic error for failed validations. */
-var EXISTS_ERROR = -210; /* Character name already exists. */
-var NOT_SELECTED_ERROR = -220; /* A character hasn't been selected. */
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Monster', {
@@ -51,6 +45,14 @@ module.exports = function(sequelize, DataTypes) {
     magic_defense: {
       type: DataTypes.INTEGER,
       defaultValue: 1
+    },
+    current_health_points: {
+      type: DataTypes.INTEGER,
+      defaultValue: this.health_points
+    },
+    current_magic_points: {
+      type: DataTypes.INTEGER,
+      defaultValue: this.magic_points
     }
   });
 }

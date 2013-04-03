@@ -15,11 +15,11 @@ module.exports = function(req, res) {
           res.json({user: u});
         } else { /* BAD PASSWORD ERROR */
           console.log("LOGIN: Wrong password provided... (FAILURE)");
-          res.json({err: User.BAD_PASSWORD_ERROR});
+          res.json({err: -101});
         }
       } else { /* USER DOESN'T EXIST ERROR */
         console.log("LOGIN: User doesn't exist... (FAILURE)");
-        res.json({err: User.NOT_EXISTS_ERROR});
+        res.json({err: -111});
       }
     });
   } else { /* NOT LOGGED IN ERROR */

@@ -21,11 +21,11 @@ module.exports = function(req, res) {
           });
         } else { /* INVALID USERNAME/PASSWORD ERROR */
           // console.log("REGISTER: Invalid username and/or password... (FAILURE)");
-          res.json({err: User.BAD_USER_ERROR});
+          res.json({err: -100});
         }
       } else { /* USER ALREADY EXISTS ERROR */
         // console.log("REGISTER: User with name already exists... (FAILURE)");
-        res.json({err: User.EXISTS_ERROR});
+        res.json({err: -110});
       }
     });
   } else { /* NOT LOGGED IN ERROR */
