@@ -1,31 +1,47 @@
 /* Test character movement in our basic game overworld. */
 
-var assert = require("assert");
-var should = require("should");
-var request = require("supertest");
+/* Test-related tools. */
+var assert = require('assert');
+var should = require('should');
+var request = require('supertest');
 
-var app = require("express");
+/* Our server. */
+var app = require('../app');
+
+/* Our routes. */
+var register = require('../routes/register');
+
+/* Our models. */
 User = require('../models').User;
 Character = require('../models').Character;
 
 /* TEST MOVEMENT */
-describe.skip('move()', function(){
-  it('should update the character position for valid locations', function(){
+describe('move()', function() {
+  it('should update the character position for valid locations', function() {
     // should.equal(Character.SUCCESS, res.err);
   })
-  it('should not change coordinates for invalid locations', function(){
+  it('should not change coordinates for invalid locations', function() {
     // should.equal(Character.SUCCESS, res.err);
   })
 })
 
-/* SKIP THESE TESTS */
-
-describe.skip('Character', function(){
-  describe('#move()', function(){
-    it('should DO SOMETHING', function(){
-      // add here
-    })
+/* TEST EQUIPMENT */
+describe.skip('equip()', function() {
+  it('should equip the item', function() {
+    // do something
   })
 })
 
+/* TEST UNEQUIPMENT */
+describe.skip('unequip()', function() {
+  it('should unequip the item', function() {
+    // do something
+  })
+})
 
+/* TEST INTERACTION WITH NPCS */
+describe.skip('talk_to_npc()', function() {
+  it('should talk to the NPC', function() {
+    // do something
+  })
+})

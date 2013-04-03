@@ -21,6 +21,8 @@ var app = express();
 var cookieParser = express.cookieParser('your secret here')
   , sessionStore = new express.session.MemoryStore();
 
+module.exports = app;
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');

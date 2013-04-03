@@ -25,7 +25,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     ypos: {
       type: DataTypes.INTEGER
-    }
+    },
+		level: {
+			type: DataTypes.INTEGER
+		}
   });
 }
 

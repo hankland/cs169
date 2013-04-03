@@ -1,70 +1,73 @@
 /* Test the login/registration system. */
 
-var assert = require("assert");
-var should = require("should");
-var request = require("supertest");
+/* Test-related tools. */
+var assert = require('assert');
+var should = require('should');
+var request = require('supertest');
 
-var app = require("express");
-User = require('../models').User;
-Character = require('../models').Character;
+/* Our server. */
+var app = require('../app');
+
+/* Our routes. */
 var register = require('../routes/register');
 
+/* Our models. */
+User = require('../models').User;
+Character = require('../models').Character;
+
 /* TEST REGISTRATION */
-describe('register()', function(){
-  it('should add a new User if no existing User has the same name', function(){
-    // should.equal(User.SUCCESS, res.err);
+describe('POST /register', function() {
+  before(function() {
+    // User.sync({ force: true });
   })
-  it('should not add a new User with the same name as an existing User', function(){
-    // should.equal(User.EXISTS_ERROR, res.err);
+  it('should add a new User if no existing User has the same name', function(done) {
+    request(app)
+      .post('/register')
+      .send({ user: "Annie", password: "a" })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
   })
-  it('should not allow username/password lengths < 1 or > 16', function(done){
-    // should.equal(User.BAD_USER_ERROR, res.err);
+  it('should not add a new User with the same name as an existing User', function(done) {
+    done();
+  })
+  it('should not allow username/password lengths < 1 or > 16', function(done) {
+    done();
   })
 })
 
 /* TEST LOGGING IN */
-describe.skip('login()', function(){
-  it('should set the session data upon success', function(){
-    // should.equal(User.SUCCESS, res.err);
+describe('POST /login', function() {
+  it('should set the session data upon success', function(done) {
+    request(app)
+      .post('/login')
+      .send ({ user: "Lenny", password: "lenny" })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
   })
-  it('should return error for non-existant users', function(){
-    // should.equal(User.NOT_EXISTS_ERROR, res.err);
+  it('should return error for non-existent users', function(done) {
+    request(app)
+      .post('/login')
+      .send ({ user: "Lenny2", password: "lenny2" })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
   })
-  it('should return error for incorrect passwords', function(){
-    // should.equal(User.BAD_PASSWORD_ERROR, res.err);
+  it('should return error for incorrect passwords', function(done) {
+    done();
   })
 })
 
 /* TEST LOGGING OUT */
-describe.skip('logout()', function(){
-  it('should clear session data', function(){
-    // should.equal(User.SUCCESS, res.err);
-  })
-})
-
-/* SKIP THESE TESTS */
-
-describe.skip('User', function(){
-  describe('#register()', function(){
-    it('should DO SOMETHING', function(){
-      // add here
-    })
-  })
-})
-
-describe.skip('User', function(){
-  describe('#login()', function(){
-    it('should DO SOMETHING', function(){
-      // add here
-    })
-  })
-})
-
-describe.skip('User', function(){
-  describe('#logout()', function(){
-    it('should DO SOMETHING', function(){
-      // add here
-    })
+describe('POST /logout', function() {
+  it('should clear session data', function(done) {
+    request(app)
+      .get('/logout')
+      .end(function(err, res) {
+        res.header['location'].should.include('/');
+        done();
+      });
   })
 })
 
