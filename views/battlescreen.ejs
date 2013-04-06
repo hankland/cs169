@@ -2,114 +2,27 @@
 <html>
 <head>
   <title>A NEW MMO</title>
+  <script src="/socket.io/socket.io.js"></script>
   <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
   <script type='text/javascript' src="/javascripts/post.js"></script>
-  <script type='text/javascript'>
-		/* On page load. */
-		$(document).ready(function() {
-		  alert("Hello! Hi!");
-		  beginBattle();
-		});
+  <script>
+    var socket = io.connect('/battle');
 
-    /* Variables */
-		var turn = 1; // The current turn number.
-		var ally = character; // The player's character. FIX ME?
-		var enemy = monster; // The enemy monster. FIX ME?
-		var ALLY_TURN = 0; // Ally's turn.
-		var ENEMY_TURN = 1; // Enemy's turn.
-    var actor = ALLY_TURN; // The entity making the next move.
-		var totalEXPGained = 0; // The total EXP gained so far this battle.
+    socket.on('disconnect', function() {
+      // alert("The battle ended because you disconnected.");
+    });
 
-		/* Enter battle. */
-		function beginBattle() {
-		  $('#timer').html("Turn " + turn);
-		  display("Battle has begun!");
-		  // button menu for first player's turn ("next")
-		}
+    socket.on('getbattlers', function(data) {
+      alert("get battlers");
+      character = data.character;
+      monster = data.monster;
+      alert(character + "");
+      alert(monster + "");
+    });
 
-		/* Increment the turn counter by numTurns. */
-		function incrementTurn() {
-		  turn += 1;
-		}
-
-		/* Next entity gets to make a move. */
-		function nextActor() {
-		  if (actor == ALLY_TURN) {
-		    actor = ENEMY_TURN;
-		    attack(enemy, ally);
-		  } else if (actor == ENEMY_TURN) {
-		    incrementTurn();
-		    actor = ALLY_TURN;
-		    display("It is your turn. Choose a battle command.");
-		    // change button menu to battle commands menu
-		  }
-		}
-		
-		/* Use the ATTACK battle command.
-		 * The attacker and attackee must be characters or enemies. */
-		function attack(attacker, attackee) {
-      console.log("attack mode!");
-		  var physicalAttack = attacker.physical_attack;
-		  var physicalDefense = attackee.physical_defense;
-		  var damage = physicalAttack - physicalDefense;
-      var currentHP = attackee.current_health_points;
-		  if (damage < 0) {
-		    damage = 0;
-		  }
-		  if (damage >= currentHP) {
-		    damage = currentHP;
-		  }
-		  attackee.current_health_points = currentHP - damage;
-      display(attackee.name + "'s HP would be " + attackee.current_health_points + " after the attack!");
-      /*
-		  attackee.save().success(function() {
-		    if (attackee.current_health_points == 0) {
-		      kill(attacker, attackee);
-		    } else {
-		      display(attacker.name + " has dealt " + damage + " damage to "
-		              + attackee.name + "!");
-		      nextActor();
-		    }
-		  }
-      */
-		}
-
-		/* Use the DEFEND battle command.
-		 * The defender must be a character or enemy. */
-		function defend(defender) {
-		  // does nothing for now
-		  nextActor();
-		}
-
-		/* Use the FLEE battle command.
-		 * The fleer must be a character or enemy. */
-		function flee(fleer) {
-		  finishBattle();
-		}
-
-		function kill(killer, killee) {
-		  display(killee.name + " has been slain by " + killer.name + "!");
-		  // change action menu to include finishBattle() ("next") option
-		}
-
-		/* End the battle. */
-		function finishBattle() {
-		  display("The battle has ended! You've earned a total of "
-		          + totalEXPGained + " EXP this battle.");
-		  // change action menu to include switchToOverworld() ("end") option
-		}
-
-		/* Display text in the text box. */
-		function display(text) {
-		  $('#textbox').html(text);
-		}
-
-		/* Enter and display the game overworld. */
-		function switchToOverworld() {
-		  // switch to PLAY screen
-		}
-	</script>
+    socket.emit('getbattlers', {});
+  </script>
 </head>
 
 <body>
@@ -118,15 +31,14 @@
     <center>
     <!-- Battle timer information -->
     <div id="timer" style="width:75px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">
-      TURN
+      Turn 0
     </div>
     <!-- Enemy information -->
     <div id="enemybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
       <div id="enemy" style="width:33%;float:center">
         <p>
-          <b><%= monster.name %></b><br /><br />
-          HP: <%= monster.current_health_points %> / <%= monster.health_points %><br />
-          MP: <%= monster.current_magic_points %> / <%= monster.magic_points %><br />
+          <div id="enemyname"><b><%= monster.name %></b></div><br />
+          <div id="enemyhp">HP: <%= monster.health_points %> / <%= monster.health_points %></div>
         </p>
       </div>
     </div>
@@ -134,24 +46,204 @@
     <div id="allybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
       <div id="ally" style="width:33%;float:center;">
         <p>
-          <b><%= character.name %></b><br /><br />
-          HP: <%= character.current_health_points %> / <%= character.health_points %><br />
-          MP: <%= character.current_magic_points %> / <%= character.magic_points %><br />
+          <div id="allyname"><b><%= character.name %></b></div><br />
+          <div id="allyhp">HP: <%= character.current_health_points %> / <%= character.health_points %></div>
+          <div id="allymp">MP: <%= character.current_magic_points %> / <%= character.magic_points %></div>
         </p>
       </div>
     </div>
     <!-- Textbox displaying messages -->
-    <div id="textbox" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">BATTLE TEXT HERE!</div>
+    <div id="textbox" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">...</div>
     <!-- Battle command menu -->
     <div id="actions" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">
+      <input id="button-next-continue" type="button" value="Next" onclick="next('continue');">
+      <input id="button-next-end" type="button" value="Next" onclick="next('end');">
       <input id="button-attack" type="button" value="Attack" onclick="attack(character, monster);">
       <input id="button-defend" type="button" value="Defend" onclick="defend(character);">
-      <input id="button-flee" type="button" value="Flee" onclick="flee(character);">
+      <input id="button-flee" type="button" value="Flee">
+      <input id="button-overworld" type="button" value="Return to Overworld" onclick="switchToOverworld();">
       <input id="button-logout" type="button" value="Logout" onclick="window.location.href ='/logout';">
     </div>
     </center>
   </div>
 </center>
+
+<script>
+  /* Initially hide all buttons. */
+  $('#button-next-continue').hide();
+  $('#button-next-end').hide();
+  $('#button-attack').hide();
+  $('#button-defend').hide();
+  $('#button-flee').hide();
+  $('#button-overworld').hide();
+
+  /* Upon page load. */
+  $(document).ready(function() {
+    beginBattle();
+  });
+
+  /* Variables */
+  var turn = 1; // The current turn number.
+  var ALLY_TURN = 0; // Ally's turn.
+  var ENEMY_TURN = 1; // Enemy's turn.
+  var actor = ALLY_TURN; // The entity making the next move.
+  var totalEXPGained = 0; // The total EXP gained so far this battle.
+
+
+  /* Update battle info. */
+  function renderBattleInfo() {
+    $('#timer').html("Turn " + turn);
+    showCommandMenu();
+  }
+
+  function showNextMenu(type) {
+    $('#button-attack').hide();
+    $('#button-defend').hide();
+    $('#button-flee').hide();
+    $('#button-overworld').hide();
+    if (type == 'continue') {
+      $('#button-next-end').hide();
+      $('#button-next-continue').show();
+    } else if (type == 'end') {
+      $('#button-next-continue').hide();
+      $('#button-next-end').show();
+    } else {
+      $('#button-next-continue').hide();
+      $('#button-next-end').hide();
+    }
+  }
+
+  function showCommandMenu() {
+    $('#button-next-continue').hide();
+    $('#button-next-end').hide();
+    $('#button-overworld').hide();
+    $('#button-attack').show();
+    $('#button-defend').show();
+    $('#button-flee').show();
+  }
+
+  function showEndMenu() {
+    $('#button-next-continue').hide();
+    $('#button-next-end').hide();
+    $('#button-attack').hide();
+    $('#button-defend').hide();
+    $('#button-flee').hide();
+    $('#button-overworld').show();
+  }
+  
+  /* Enter battle. */
+  function beginBattle() {
+    renderBattleInfo();
+    display("Battle has begun!");
+  }
+
+  
+  /* Increment the turn counter by numTurns. */
+  function incrementTurn() {
+    turn += 1;
+    $('#timer').html("Turn " + turn);
+  }
+
+  /* Next entity gets to make a move. */
+  function nextActor() {
+    if (actor == ALLY_TURN) {
+      actor = ENEMY_TURN;
+      display("It's now the enemy's turn. The enemy just watches you...");
+      showNextMenu('continue');
+    } else if (actor == ENEMY_TURN) {
+      incrementTurn();
+      actor = ALLY_TURN;
+      display("It is your turn. Choose a battle command.");
+      showCommandMenu();
+    }
+  }
+
+  /* Use the ATTACK battle command.
+   * The attacker and attackee must be characters or enemies. */
+  function attack(attacker, attackee) {
+    var battleDice = Math.floor((Math.random() * 5) + 1);
+    if (battleDice == 5) {
+      kill();
+    } else if (battleDice == 4) {
+      display("You barely miss your attack!");
+      showNextMenu('continue');
+    } else if (battleDice == 3) {
+      display("You attempt to strike, but the enemy dodges!");
+      showNextMenu('continue');
+    } else {
+      display("You missed...");
+      showNextMenu('continue');
+    }
+  }
+
+  /* Use the DEFEND battle command.
+   * The defender must be a character or enemy. */
+  function defend(defender) {
+    display("Defended!");
+    showNextMenu('continue');
+  }
+
+  /* Use the FLEE battle command.
+   * The fleer must be a character or enemy. */
+  function flee(fleer) {
+    display("You've fled the battle!");
+    showNextMenu('end');
+  }
+
+  function kill(killer, killee) {
+    totalEXPGained += 10;
+    $('#enemyhp').html("HP: 0 / 50");
+    display("You've slain the enemy!");
+    showNextMenu('end');
+  }
+
+  /* End the battle. */
+  function finishBattle() {
+    display("The battle has ended! You've earned a total of "
+	    + totalEXPGained + " EXP this battle.");
+    showEndMenu();
+  }
+
+  /* Enter and display the game overworld. */
+  function switchToOverworld() {
+    window.location.href = '/play';
+  }
+
+  /* Display text in the text box. */
+  function display(text) {
+    $('#textbox').html(text);
+  }
+
+  $('#button-next-continue').click(function() {
+    nextActor();
+    return false;
+  });
+
+  $('#button-next-end').click(function() {
+    finishBattle();
+    return false;
+  });
+
+  $('#button-attack').click(function() {
+    attack();
+    return false;
+  });
+
+  $('#button-defend').click(function() {
+    defend();
+    return false;
+  });
+
+  $('#button-flee').click(function() {
+    flee();
+    return false;
+  });
+
+  $('#button-overworld').click(function() {
+    switchToOverworld();
+    return false;
+  });
+</script>
 </body>
 </html>
 

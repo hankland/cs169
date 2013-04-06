@@ -14,11 +14,9 @@
         if (data.name === myname) {
           boxman.x = boxman.newx = data.xpos;
           boxman.y = boxman.newy = data.ypos;
-          // TEMPORARY: Random battle encounters
           var battleDice = Math.floor((Math.random() * ENCOUNTER_RATE) + 1);
           if (battleDice == ENCOUNTER_RATE) {
-            // do something
-            alert("BATTLE TIME! (supposed to be)");
+            window.location.href = '/battle';
           }
         } else {
           for (var i = 0; i < players.length; i++) {
@@ -44,8 +42,7 @@
 
       /* Disconnect from the game. */
       socket.on('disconnect', function() {
-        alert("You've been disconnected - "
-          + "make sure you are logged in and you selected a character.");
+        // alert("You've left the overworld.");
       });
 
       /* Emit stuff. */
@@ -74,10 +71,10 @@
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
 
-      var AREA_WIDTH = 5; // x-dimension size
-      var AREA_HEIGHT = 5; // y-dimension size
-      var TILE_SIZE = 100; // side of a single area tile
-      var ENCOUNTER_RATE = 25; // odds of random battle encounter (higher => less likely)
+      var AREA_WIDTH = 20; // x-dimension size
+      var AREA_HEIGHT = 20; // y-dimension size
+      var TILE_SIZE = 25; // side of a single area tile
+      var ENCOUNTER_RATE = 50; // odds of random battle encounter (higher => less likely)
       
       /* Handles key presses. */
       addEventListener("keydown", function (e) {
@@ -117,6 +114,7 @@
       /* Draw out the game overworld. */
       var render = function () {
         if (should_render) {
+          // console.log(TILE_SIZE + " " + AREA_WIDTH + " " + AREA_HEIGHT + " " areamap.length);
           ctx.clearRect(0, 0, TILE_SIZE * AREA_WIDTH, TILE_SIZE * AREA_HEIGHT);
 
           // Draw the area's terrain
@@ -134,7 +132,7 @@
           }
 
           // Draw currently logged-in character
-          ctx.fillStyle = "#FF0000";
+          ctx.fillStyle = "#CC0000";
           ctx.fillRect(boxman.x * TILE_SIZE, boxman.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
           // Draw all other characters
@@ -175,13 +173,13 @@
 
       /* Set the rate at which we should call each method. */
       setInterval(main, 1);
-      setInterval(move, 250);
+      setInterval(move, 100);
     </script>
 
     <div id="menu">
       <form>
         <p>
-          <input id="battle" type="button" value="Battle" onclick="window.location.href ='/battle';">
+          <input id="battle" type="button" value="Start Instant Battle" onclick="window.location.href ='/battle';">
           <input id="logout" type="button" value="Logout" onclick="window.location.href ='/logout';">
         </p>
       </form>

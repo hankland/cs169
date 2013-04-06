@@ -20,10 +20,10 @@
 
         <p>
           <u>Select Character:</u></br>
-          Currently selected: <%= currentCharacter %>
+          Currently selected (ID): <%= currentCharacter %>
           <select id="charselect" style="width: 200px">
           <% for(var i = 0; i < characters.length; i++) { %>
-              <option value=<%= characters[i].id %>> <%= characters[i].name %> </option>
+              <option value=<%= characters[i].id %>> <%= characters[i].name %> (#<%= characters[i].id %>)</option>
           <% }  %>
           </select>
           <input id="select" type="button" value="Select Character" onclick="javascript:post('/select_character', {character: parseInt($('#charselect').val())}, function f(data) { window.location.href = '/account'; })">

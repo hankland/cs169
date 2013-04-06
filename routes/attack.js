@@ -35,11 +35,11 @@ module.exports = function(req, res){
     var attackerType = req.body.attackerType;
     var attacker, attackee;
     if (attackerType == "character") {
-      attacker = req.body.attacker; // Character.find(req.body.attacker);
-      attackee = req.body.attackee; // Monster.find(req.body.attackee);
+      attacker = req.body.attacker;
+      attackee = req.body.attackee;
     } else if (attackerType == "monster") {
-      attacker = req.body.attacker; // Monster.find(req.body.attacker);
-      attackee = req.body.attackee; // Character.find(req.body.attackee);
+      attacker = req.body.attacker;
+      attackee = req.body.attackee;
     }
     var physicalAttack = attacker.physical_attack;
     var physicalDefense = attackee.physical_defense;
