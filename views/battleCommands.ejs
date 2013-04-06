@@ -10,6 +10,10 @@
       socket.on('start_battle', function (data) {
           var i = 1;
           var j = 1;
+<<<<<<< HEAD
+=======
+          turnOrder = [];
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
           for (n in data[players]) {
               if (i == 1) {
                   player1 = n[name];
@@ -64,9 +68,15 @@
   <div id="battleCommands" style="width:500px;height:200px;border:5px solid black;" class="box">
     <div id="players" style="width:33%;border:1px solid black;float:left;">
         <div id="player1" style="height:25%" onclick="switchTarget('player1')">
+<<<<<<< HEAD
             <div id="player1name" style="width:50%">
             </div>
             <div id="player1stats" style="width:50%">
+=======
+            <div id="player1name" style="width:50%;float:left;">
+            </div>
+            <div id="player1stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="player1hp" style="height:33%">
                 </div>
                 <div id="player1mp" style="height:33%">
@@ -76,9 +86,15 @@
             </div>
         </div>
         <div id="player2" style="height:25%" onclick="switchTarget('player2')">
+<<<<<<< HEAD
             <div id="player2name" style="width:50%">
             </div>
             <div id="player2stats" style="width:50%">
+=======
+            <div id="player2name" style="width:50%;float:left;">
+            </div>
+            <div id="player2stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="player2hp" style="height:33%">
                 </div>
                 <div id="player2mp" style="height:33%">
@@ -88,9 +104,15 @@
             </div>
         </div>
         <div id="player3" style="height:25%" onclick="switchTarget('player3')">
+<<<<<<< HEAD
             <div id="player3name" style="width:50%">
             </div>
             <div id="player3stats" style="width:50%">
+=======
+            <div id="player3name" style="width:50%;float:left;">
+            </div>
+            <div id="player3stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="player3hp" style="height:33%">
                 </div>
                 <div id="player3mp" style="height:33%">
@@ -100,9 +122,15 @@
             </div>
         </div>
         <div id="player4" style="height:25%" onclick="switchTarget('player4')">
+<<<<<<< HEAD
             <div id="player4name" style="width:50%">
             </div>
             <div id="player4stats" style="width:50%">
+=======
+            <div id="player4name" style="width:50%;float:left;">
+            </div>
+            <div id="player4stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="player4hp" style="height:33%">
                 </div>
                 <div id="player4mp" style="height:33%">
@@ -113,7 +141,11 @@
         </div>
     </div>
     <div id="commands" style="width:32.8%;border:1px solid black;float:left;">
+<<<<<<< HEAD
         <div id="attack" style="height:20%" onclick="action('attack');">
+=======
+        <div id="attack" style="height:20%" onclick="action('attack')">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
         Attack
         </div>
         <div id="skills" style="height:20%">
@@ -125,15 +157,25 @@
         <div id="defend" style="height:20%">
         Defend
         </div>
+<<<<<<< HEAD
         <div id="flee" style="height:20%" onclick="action('flee');">
+=======
+        <div id="flee" style="height:20%" onclick="action('flee')">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
         Flee
         </div>
     </div>
     <div id="enemies" style="width:33%;border:1px solid black;float:left;">
         <div id="enemy1" style="height:25%" onclick="switchTarget('enemy1')">
+<<<<<<< HEAD
             <div id="enemy1name" style="width:50%">
             </div>
             <div id="enemy1stats" style="width:50%">
+=======
+            <div id="enemy1name" style="width:50%;float:left;">
+            </div>
+            <div id="enemy1stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="enemy1hp" style="height:50%">
                 </div>
                 <div id="enemy1condition" style="height:50%">
@@ -141,9 +183,15 @@
             </div>
         </div>
         <div id="enemy2" style="height:25%" onclick="switchTarget('enemy2')">
+<<<<<<< HEAD
             <div id="enemy2name" style="width:50%">
             </div>
             <div id="enemy2stats" style="width:50%">
+=======
+            <div id="enemy2name" style="width:50%;float:left;">
+            </div>
+            <div id="enemy2stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="enemy2hp" style="height:50%">
                 </div>
                 <div id="enemy2condition" style="height:50%">
@@ -151,9 +199,15 @@
             </div>
         </div>
         <div id="enemy3" style="height:25%" onclick="switchTarget('enemy3')">
+<<<<<<< HEAD
             <div id="enemy3name" style="width:50%">
             </div>
             <div id="enemy3stats" style="width:50%">
+=======
+            <div id="enemy3name" style="width:50%;float:left;">
+            </div>
+            <div id="enemy3stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="enemy3hp" style="height:50%">
                 </div>
                 <div id="enemy3condition" style="height:50%">
@@ -161,9 +215,15 @@
             </div>
         </div>
         <div id="enemy4" style="height:25%" onclick="switchTarget('enemy4')">
+<<<<<<< HEAD
             <div id="enemy4name" style="width:50%">
             </div>
             <div id="enemy4stats" style="width:50%">
+=======
+            <div id="enemy4name" style="width:50%;float:left;">
+            </div>
+            <div id="enemy4stats" style="width:50%;float:left;">
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
                 <div id="enemy4hp" style="height:50%">
                 </div>
                 <div id="enemy4condition" style="height:50%">
@@ -174,11 +234,19 @@
   </div>
 
   <script>
+<<<<<<< HEAD
       var me = "";
       var player1 = "";
       var player1hp = "";
       var player1mp = "";
       var player1cond = "";
+=======
+      var me = "player1";
+      var player1 = "Player 1";
+      var player1hp = "HP:100/100";
+      var player1mp = "MP:100/100";
+      var player1cond = "GOOD";
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
       var player2 = "";
       var player2hp = "";
       var player2mp = "";
@@ -191,9 +259,15 @@
       var player4hp = "";
       var player4mp = "";
       var player4cond = "";
+<<<<<<< HEAD
       var enemy1 = "";
       var enemy1hp = "";
       var enemy1cond = "";
+=======
+      var enemy1 = "Enemy A";
+      var enemy1hp = "HP:50/50";
+      var enemy1cond = "POISON";
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
       var enemy2 = "";
       var enemy2hp = "";
       var enemy2cond = "";
@@ -204,8 +278,12 @@
       var enemy4hp = "";
       var enemy4cond = "";
       var target = "enemy1";
+<<<<<<< HEAD
       var turnOrder = [];
       var yourTurn = false;
+=======
+      var turnOrder = ["player1", "enemy1"];
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
       var currentTurn = 0;
       $("#player1name").html(player1);
       $("#player1hp").html(player1hp);
@@ -241,14 +319,26 @@
           }
       };
       function applyDamage(damage) {
+<<<<<<< HEAD
           var hpLeft = parseInt($("#" + target + "hp").html()) - damage;
           if (hpLeft < 0) hpLeft = 0;
           $("#" + target + "hp").html(hpLeft);
+=======
+          var hp = $("#" + target + "hp").html();
+          var hpmax = hp.match(/\/[0-9]+/)[0].slice(1);
+          var hpLeft = parseInt(hp.match(/:[0-9]+\//)[0].slice(1, -1)) - damage;
+          if (hpLeft < 0) hpLeft = 0;
+          $("#" + target + "hp").html("HP:" + hpleft + "/" + hpmax);
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
       };
       function action(command) {
           if (turnOrder[currentTurn] == me) {
               if (command == "attack") {
+<<<<<<< HEAD
                   javascript: post('/attack', { 'monster': target }, function f(data) { applyDamage(data[damage]); });
+=======
+                  javascript:post('/attack', { 'monster': target }, function f(data) { applyDamage(data[damage]); });
+>>>>>>> 7dd29e9637be2f7977c0c18cf298e30c1366343b
               } else {
                   window.location.href = '/exit_battle';
               }
