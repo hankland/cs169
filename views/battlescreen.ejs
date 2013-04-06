@@ -1,42 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>A NEW MMO</title>
-<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type='text/javascript' src="/javascripts/post.js"></script>
+  <title>A NEW MMO</title>
+  <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+  <script type='text/javascript' src="/javascripts/post.js"></script>
+  <script type='text/javascript'>
+		/* On page load. */
+		$(document).ready(function() {
+		  alert("Hello! Hi!");
+		  beginBattle();
+		});
+
+    /* Variables */
+		var turn = 1; // The current turn number.
+		var ally = character; // The player's character. FIX ME?
+		var enemy = monster; // The enemy monster. FIX ME?
+		var ALLY_TURN = 0; // Ally's turn.
+		var ENEMY_TURN = 1; // Enemy's turn.
+    var actor = ALLY_TURN; // The entity making the next move.
+		var totalEXPGained = 0; // The total EXP gained so far this battle.
+
+		/* Enter battle. */
+		function beginBattle() {
+		  $('#timer').html("Turn " + turn);
+		  display("Battle has begun!");
+		  // button menu for first player's turn ("next")
+		}
+
+		/* Increment the turn counter by numTurns. */
+		function incrementTurn() {
+		  turn += 1;
+		}
+
+		/* Next entity gets to make a move. */
+		function nextActor() {
+		  if (actor == ALLY_TURN) {
+		    actor = ENEMY_TURN;
+		    attack(enemy, ally);
+		  } else if (actor == ENEMY_TURN) {
+		    incrementTurn();
+		    actor = ALLY_TURN;
+		    display("It is your turn. Choose a battle command.");
+		    // change button menu to battle commands menu
+		  }
+		}
+		
+		/* Use the ATTACK battle command.
+		 * The attacker and attackee must be characters or enemies. */
+		function attack(attacker, attackee) {
+      console.log("attack mode!");
+		  var physicalAttack = attacker.physical_attack;
+		  var physicalDefense = attackee.physical_defense;
+		  var damage = physicalAttack - physicalDefense;
+      var currentHP = attackee.current_health_points;
+		  if (damage < 0) {
+		    damage = 0;
+		  }
+		  if (damage >= currentHP) {
+		    damage = currentHP;
+		  }
+		  attackee.current_health_points = currentHP - damage;
+      display(attackee.name + "'s HP would be " + attackee.current_health_points + " after the attack!");
+      /*
+		  attackee.save().success(function() {
+		    if (attackee.current_health_points == 0) {
+		      kill(attacker, attackee);
+		    } else {
+		      display(attacker.name + " has dealt " + damage + " damage to "
+		              + attackee.name + "!");
+		      nextActor();
+		    }
+		  }
+      */
+		}
+
+		/* Use the DEFEND battle command.
+		 * The defender must be a character or enemy. */
+		function defend(defender) {
+		  // does nothing for now
+		  nextActor();
+		}
+
+		/* Use the FLEE battle command.
+		 * The fleer must be a character or enemy. */
+		function flee(fleer) {
+		  finishBattle();
+		}
+
+		function kill(killer, killee) {
+		  display(killee.name + " has been slain by " + killer.name + "!");
+		  // change action menu to include finishBattle() ("next") option
+		}
+
+		/* End the battle. */
+		function finishBattle() {
+		  display("The battle has ended! You've earned a total of "
+		          + totalEXPGained + " EXP this battle.");
+		  // change action menu to include switchToOverworld() ("end") option
+		}
+
+		/* Display text in the text box. */
+		function display(text) {
+		  $('#textbox').html(text);
+		}
+
+		/* Enter and display the game overworld. */
+		function switchToOverworld() {
+		  // switch to PLAY screen
+		}
+	</script>
 </head>
 
 <body>
-
-  <div id="battle" style="width:500px;height:500px;padding:5px 5px 5px 5px;margin:5px 5px 5px 5px;border:5px solid black;background-color:lightblue;" class="box">
+<center>
+  <div id="battle" style="width:500px;padding:5px 5px 5px 5px;margin:5px 5px 5px 5px;border:5px solid black;background-color:gray;" class="box">
     <center>
-    <div id="battlescreen" style="height:220px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;" class="box">
-
-      <div id="timer" style="width: 50px; border:5px solid black;" class="text">
-        turntime
-      </div>
-
+    <!-- Battle timer information -->
+    <div id="timer" style="width:75px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">
+      TURN
+    </div>
+    <!-- Enemy information -->
+    <div id="enemybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
       <div id="enemy" style="width:33%;float:center">
         <p>
-          HP: <%= monster.current_health_points %> / <%= monster.health_points %></br>
-          MP: <%= monster.current_magic_points %> / <%= monster.magic_points %></br>
-          Conditions: N/A
+          <b><%= monster.name %></b><br /><br />
+          HP: <%= monster.current_health_points %> / <%= monster.health_points %><br />
+          MP: <%= monster.current_magic_points %> / <%= monster.magic_points %><br />
         </p>
       </div>
     </div>
-    <div id="battle2" style="height:220px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;" class="box">
-    
-      <div id="ally" style="width:33%;float:center">
+    <!-- Ally information -->
+    <div id="allybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
+      <div id="ally" style="width:33%;float:center;">
         <p>
-          HP: <%= character.current_health_points %> / <%= character.health_points %></br>
-          MP: <%= character.current_magic_points %> / <%= character.magic_points %></br>
-          Conditions: N/A
+          <b><%= character.name %></b><br /><br />
+          HP: <%= character.current_health_points %> / <%= character.health_points %><br />
+          MP: <%= character.current_magic_points %> / <%= character.magic_points %><br />
         </p>
       </div>
+    </div>
+    <!-- Textbox displaying messages -->
+    <div id="textbox" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">BATTLE TEXT HERE!</div>
+    <!-- Battle command menu -->
+    <div id="actions" style="margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:tan;" class="box">
+      <input id="button-attack" type="button" value="Attack" onclick="attack(character, monster);">
+      <input id="button-defend" type="button" value="Defend" onclick="defend(character);">
+      <input id="button-flee" type="button" value="Flee" onclick="flee(character);">
+      <input id="button-logout" type="button" value="Logout" onclick="window.location.href ='/logout';">
     </div>
     </center>
   </div>
-
+</center>
 </body>
 </html>
 

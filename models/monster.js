@@ -45,14 +45,6 @@ module.exports = function(sequelize, DataTypes) {
     magic_defense: {
       type: DataTypes.INTEGER,
       defaultValue: 1
-    },
-    current_health_points: {
-      type: DataTypes.INTEGER,
-      defaultValue: this.health_points
-    },
-    current_magic_points: {
-      type: DataTypes.INTEGER,
-      defaultValue: this.magic_points
     }
   });
 }

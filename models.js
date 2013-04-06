@@ -24,3 +24,5 @@ module.exports.User = User;
 module.exports.Character = Character;
 module.exports.Area = Area;
 module.exports.Class = Class;
+module.exports.Monster = Monster;
+module.exports.Item = Item;

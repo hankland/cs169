@@ -15,7 +15,9 @@ var express = require('express')
   , create_character = require('./routes/create_character.js')
   , select_character = require('./routes/select_character.js')
   , play = require('./routes/play.js')
-  , battle = require('./routes/battle.js');
+  , battle = require('./routes/battle.js')
+  , end_battle = require('./routes/end_battle.js')
+  , attack = require('./routes/attack.js');
 
 
 var app = express();
@@ -51,6 +53,8 @@ app.post('/create_character', create_character);
 app.post('/select_character', select_character);
 app.get('/play', play);
 app.get('/battle', battle);
+app.post('/attack', attack);
+app.get('/end_battle', end_battle);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

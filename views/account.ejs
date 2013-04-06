@@ -15,17 +15,18 @@
 
 	<p>
           <u>Start Playing:</u></br>
-          <input id="choose" type="button" value="Play" onclick="window.location.href = '/play';">
+          <input id="play" type="button" value="Play" onclick="window.location.href = '/play';">
         </p>
 
         <p>
-          <u>Select Character:</u></br>	
+          <u>Select Character:</u></br>
+          Currently selected: <%= currentCharacter %>
           <select id="charselect" style="width: 200px">
           <% for(var i = 0; i < characters.length; i++) { %>
               <option value=<%= characters[i].id %>> <%= characters[i].name %> </option>
           <% }  %>
           </select>
-          <input id="choose" type="button" value="Select Character" onclick="javascript:post('/select_character', {character: parseInt($('#charselect').val())}, function f(data) { window.location.href = '/account'; })">
+          <input id="select" type="button" value="Select Character" onclick="javascript:post('/select_character', {character: parseInt($('#charselect').val())}, function f(data) { window.location.href = '/account'; })">
         </p>
 
         <p>
@@ -36,7 +37,7 @@
 
         <p>
           <u>Logout:</u></br>
-          <input id="choose" type="button" value="Logout" onclick="window.location.href = '/logout';">
+          <input id="logout" type="button" value="Logout" onclick="window.location.href = '/logout';">
         </p>
 
       </form>

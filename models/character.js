@@ -65,11 +65,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     current_health_points: {
       type: DataTypes.INTEGER,
-      defaultValue: this.health_points
+      defaultValue: 100
     },
     current_magic_points: {
       type: DataTypes.INTEGER,
-      defaultValue: this.magic_points
+      defaultValue: 100
     }
   }, {
     instanceMethods: {
@@ -86,5 +86,4 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 }
-
 

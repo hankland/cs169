@@ -6,7 +6,8 @@ module.exports = function(req, res){
       u.getCharacters().success(function (charArray) {
         res.render('account', {
           username: u.username,
-          characters: charArray
+          characters: charArray,
+          currentCharacter: req.session.character
         });
       });
     });
