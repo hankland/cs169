@@ -9,31 +9,67 @@ var request = require('supertest');
 var app = require('../app');
 
 /* Our routes. */
-var register = require('../routes/register');
+var endBattle = require('../routes/end_battle');
 
 /* Our models. */
 User = require('../models').User;
 Character = require('../models').Character;
+Monster = require('../models').Monster;
 
-/* TEST BATTLE */
-describe('enter_battle()', function() {
-  it('should enter the battle', function(done) {
-    // do something
+describe('TEST_BATTLE', function() {
+  before(function(done) {
+    User.drop();
+    Character.drop();
+    Monster.drop();
+    User.sync();
+    Character.sync();
+    Monster.sync();
+    
+    // add a fake user and log in with it
+    request(app)
+      .post('/register')
+      .send({ user: "Bob", password: "b" })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function(err, res) {
+        assert.equal(res.body.err, null);
+        done();
+      });
+  })
+
+  describe('endBattle', function() {
+    it('should return to game overworld', function(done) {
+      request(app)
+        .get('/end_battle')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          done();
+        });
+    })
+  })
+
+  describe('updateExperience', function() {
+    it('should raise experience', function(done) {
+      Character.find(1).success(function(c) {
+        request(app)
+          .post('/update_experience')
+          .send({ character: c, experience: 14 })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            done();
+          });
+      });
+    })
+  })
+
+  after(function(done) {
+    User.drop();
+    Character.drop();
+    User.sync();
+    Character.sync();
     done();
   })
 })
-
-describe('end_battle()', function() {
-  it('should exit the battle', function(done) {
-    // do something
-    done();
-  })
-})
-
-describe('attack()', function() {
-  it('should damage the target', function(done) {
-    // do something
-    done();
-  })
-})
-

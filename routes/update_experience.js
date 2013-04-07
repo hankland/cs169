@@ -1,12 +1,12 @@
 Character = require('../models').Character;
 
 module.exports = function(req, res){
-  if (!req.session.user || !req.session.character) {
-    res.redirect("/");
+  var c = req.body.character;
+  if (!c) {
+    res.json({ character: c });
   } else {
-    Character.find(req.session.character).success(function(c) {
-      c.experience += req.body.experience;
-      c.save();
+    c.increment('experience', req.body.experience).success(function() {
+      res.json({ character: c, newExperience: c.experience });
     });
   }
 };

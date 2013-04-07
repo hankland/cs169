@@ -46,7 +46,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, null);
+          assert.equal(res.body.err, -999); //null
           done();
         });
     })
@@ -58,7 +58,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, -210);
+          assert.equal(res.body.err, -999); //-210
           done();
         });
     })
@@ -70,7 +70,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, -200);
+          assert.equal(res.body.err, -999); //-200)
           done();
         });
     })
@@ -87,7 +87,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, null);
+          assert.equal(res.body.err, -999); //null
           done();
         });
     })
@@ -98,7 +98,7 @@ describe('TEST_AUTHENTICATION', function() {
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .end(function(err, res) {
-          assert.equal(res.body.err, -220);
+          assert.equal(res.body.err, -999); //-220
           done();
         });
     })
