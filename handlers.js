@@ -53,6 +53,6 @@ module.exports = function(err, socket, session) {
   socket.on('getbattlers', function(data) {
     Character.find(session.character).success(function(c) {
       socket.emit('getbattlers', { character: c, monster: data.monster });
-    }
+    });
   });
 }

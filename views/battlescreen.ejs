@@ -5,20 +5,18 @@
   <script src="/socket.io/socket.io.js"></script>
   <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-  <script type='text/javascript' src="/javascripts/post.js"></script>
+  <script type='text/javascript' src="javascripts/post.js"></script>
   <script>
-    var socket = io.connect('/battle');
+    var socket = io.connect('/');
 
     socket.on('disconnect', function() {
+      // destroy monster
       // alert("The battle ended because you disconnected.");
     });
 
     socket.on('getbattlers', function(data) {
-      alert("get battlers");
       character = data.character;
       monster = data.monster;
-      alert(character + "");
-      alert(monster + "");
     });
 
     socket.emit('getbattlers', {});
@@ -37,8 +35,8 @@
     <div id="enemybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
       <div id="enemy" style="width:33%;float:center">
         <p>
-          <div id="enemyname"><b><%= monster.name %></b></div><br />
-          <div id="enemyhp">HP: <%= monster.health_points %> / <%= monster.health_points %></div>
+          <div id="enemyname"></div><br />
+          <div id="enemyhp"></div>
         </p>
       </div>
     </div>
@@ -46,9 +44,9 @@
     <div id="allybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
       <div id="ally" style="width:33%;float:center;">
         <p>
-          <div id="allyname"><b><%= character.name %></b></div><br />
-          <div id="allyhp">HP: <%= character.current_health_points %> / <%= character.health_points %></div>
-          <div id="allymp">MP: <%= character.current_magic_points %> / <%= character.magic_points %></div>
+          <div id="allyname"></div><br />
+          <div id="allyhp"></div>
+          <div id="allymp"></div>
         </p>
       </div>
     </div>
@@ -83,18 +81,14 @@
   });
 
   /* Variables */
-  var turn = 1; // The current turn number.
+  var turn = 0; // The current turn number.
   var ALLY_TURN = 0; // Ally's turn.
   var ENEMY_TURN = 1; // Enemy's turn.
   var actor = ALLY_TURN; // The entity making the next move.
   var totalEXPGained = 0; // The total EXP gained so far this battle.
 
-
-  /* Update battle info. */
-  function renderBattleInfo() {
-    $('#timer').html("Turn " + turn);
-    showCommandMenu();
-  }
+  var ally = <%= character.id %>;
+  var enemy = <%= monster.id %>;
 
   function showNextMenu(type) {
     $('#button-attack').hide();
@@ -136,7 +130,22 @@
     renderBattleInfo();
     display("Battle has begun!");
   }
+  
+  /* Update battle info. */
+  function renderBattleInfo() {
+    incrementTurn();
+    updateBattleInfo();
+    showCommandMenu();
+  }
 
+  /* Update player/monster info. */
+  function updateBattleInfo() {
+    $('#allyname').html("<b><%= character.name %></b>");
+    $('#allyhp').html("HP: <%= character.current_health_points %> / <%= character.health_points %>");
+    $('#allymp').html("HP: <%= character.current_magic_points %> / <%= character.magic_points %>");
+    $('#enemyname').html("<b><%= monster.name %></b>");
+    $('#enemyhp').html("Dodge Rate: 50%");
+  }
   
   /* Increment the turn counter by numTurns. */
   function incrementTurn() {
@@ -161,14 +170,22 @@
   /* Use the ATTACK battle command.
    * The attacker and attackee must be characters or enemies. */
   function attack(attacker, attackee) {
-    var battleDice = Math.floor((Math.random() * 5) + 1);
-    if (battleDice == 5) {
-      kill();
-    } else if (battleDice == 4) {
+    var battleDice = Math.floor((Math.random() * 10) + 1);
+    if (battleDice > 5) {
+      var enemyhp = 0;
+      if (enemyhp > 0) {
+        // enemy damage
+      } else {
+        kill();
+      }
+    } else if (battleDice == 5) {
       display("You barely miss your attack!");
       showNextMenu('continue');
-    } else if (battleDice == 3) {
+    } else if (battleDice == 4) {
       display("You attempt to strike, but the enemy dodges!");
+      showNextMenu('continue');
+    } else if (battleDice == 3) {
+      display("The enemy swiftly evades your move!");
       showNextMenu('continue');
     } else {
       display("You missed...");
@@ -179,7 +196,7 @@
   /* Use the DEFEND battle command.
    * The defender must be a character or enemy. */
   function defend(defender) {
-    display("Defended!");
+    display("You go into defensive stance!");
     showNextMenu('continue');
   }
 
@@ -191,7 +208,7 @@
   }
 
   function kill(killer, killee) {
-    totalEXPGained += 10;
+    totalEXPGained += 0;
     $('#enemyhp').html("HP: 0 / 50");
     display("You've slain the enemy!");
     showNextMenu('end');
@@ -244,6 +261,7 @@
     return false;
   });
 </script>
+
 </body>
 </html>
 

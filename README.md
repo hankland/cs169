@@ -6,4 +6,4 @@ run "npm start" to start application;
 
 Testing:
 
-run "npm test" to make Mocha run all tests in the 'test' directory;
+run "./sync.sh" and "npm test" to make Mocha run all tests in the 'test' directory;

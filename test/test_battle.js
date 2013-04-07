@@ -16,21 +16,21 @@ User = require('../models').User;
 Character = require('../models').Character;
 
 /* TEST BATTLE */
-describe.skip('enter_battle()', function() {
+describe('enter_battle()', function() {
   it('should enter the battle', function(done) {
     // do something
     done();
   })
 })
 
-describe.skip('end_battle()', function() {
+describe('end_battle()', function() {
   it('should exit the battle', function(done) {
     // do something
     done();
   })
 })
 
-describe.skip('attack()', function() {
+describe('attack()', function() {
   it('should damage the target', function(done) {
     // do something
     done();
