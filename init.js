@@ -1,6 +1,12 @@
 Character = require('./models').Character;
 Monster = require('./models').Monster;
 
+module.exports = function() {
+  /* Initialize everything. */
+  // initializeAreas();
+  initializeMonsters();
+}
+
 /* Initialize some areas. */
 function initializeAreas() {
   console.log("init.js: Initializing areas...");

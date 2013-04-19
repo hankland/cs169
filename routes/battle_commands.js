@@ -7,7 +7,7 @@ Monster = require('../models').Monster;
 var FLEE_RATE = 2;
 
 module.exports = {
-  attack: function(req, res) {
+  attack: function(req, res) { // ATTACK: damage the enemy with a basic attack
     var attacker, attackee;
     attacker = req.body.attacker;
     attackee = req.body.attackee;
@@ -23,7 +23,7 @@ module.exports = {
       res.json({damage: damage, newHealth: newHealth});
     });
   },
-  flee: function(req, res) {
+  flee: function(req, res) { // FLEE: attempt to run away from and end the battle
     var r = Math.floor((Math.random() * FLEE_RATE) + 1);
     if (r == FLEE_RATE) {
       res.json({success: true});
@@ -31,7 +31,7 @@ module.exports = {
       res.json({success: false});
     }
   },
-  defend: function() {},
-  useSkill: function() {},
-  useItem: function() {}
+  defend: function() {}, // DEFEND: block incoming attacks during the enemy's next turn
+  useSkill: function() {}, // USESKILL: use a special skill
+  useItem: function() {} // USEITEM: use an item
 };

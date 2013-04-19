@@ -79,6 +79,10 @@ module.exports = function(sequelize, DataTypes) {
     current_monster_magic: {
       type: DataTypes.INTEGER,
       defaulValue: 0
+    },
+    in_battle: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   });
 }

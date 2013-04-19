@@ -1,3 +1,5 @@
+/* DELETE THIS FILE. 'ATTACK' MOVED TO BATTLE_COMMANDS.JS. */
+
 Character = require('../models').Character;
 Monster = require('../models').Monster;
 

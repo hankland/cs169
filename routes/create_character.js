@@ -11,9 +11,8 @@ module.exports = function(req, res) {
 	if (!errors) {
           c.save().success(function () {
             req.session.character = c.id;
-            res.json({cid: c.id});
+            res.json({cid: c.id, err: 0});
           });
-          res.json({err: 0});
         } else { /* INVALID CHARACTER DETAILS ERROR */
           res.json({err: -200});
         }

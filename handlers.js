@@ -5,10 +5,11 @@ Character = require('./models').Character;
 Monster = require('./models').Monster;
 Item = require('./models').Item;
 
+// in the future, we will store area type ("forest", "mountain") and bitmap as fields of an Area instance
 var smallArea = "FACBAABACCBBABCAAABBABAABC";
 var largeArea = "F";
 
-for (var i = 1; i < 20*20; i++) {
+for (var i = 0; i < 20*20; i++) {
   largeArea += "A";
 }
 
@@ -54,7 +55,7 @@ var mountain =  "MBBBBBBBBBBBBBBBBBBBB" +
 								 "BAAAAAAAAAAAAAAAAAAB" +
 								 "BBBBBBBBBBBBBBBBBBBB";
 
-var defaultArea = mountain; // the area we want to use for overworld
+var defaultArea = largeArea; // the area we want to use for overworld
 var AREA_WIDTH = Math.floor(Math.sqrt(defaultArea.length)); // x-dimension size
 var AREA_HEIGHT = Math.floor(Math.sqrt(defaultArea.length)); // y-dimension size
 var TILE_SIZE = Math.floor(500/(Math.sqrt(defaultArea.length))); // side of a single area tile
@@ -95,15 +96,29 @@ module.exports = function(err, socket, session) {
     Character.find(session.character).success(function(c) {
       character = data.c;
       c.current_health_points = character.current_health_points;
+      // c.level = character.level;
+      // c.experience = character.experience;
       c.save();
     });
   });
 
   /* TESTING */
   socket.on('getbattlers', function(data) {
-    Monster.create({ name: 'DummyMonster' }).success(function(m) {
-      Character.find(session.character).success(function(c) {
-        socket.emit('getbattlers', { character: c, monster: m });
+    Character.find(session.character).success(function(c) {
+      Monster.findAll().success(function(monsters) {
+        if (monsters.length == 0) {
+          socket.emit('getbattlers', {err: 500});
+        } else {
+      	  var randomMonsterID = Math.floor((Math.random() * monsters.length) + 1);
+          Monster.find({where: {id: randomMonsterID}}).success(function(m) {
+      	    c.setMonster(m);
+            c.current_monster_health = m.health_points;
+            c.current_monster_magic = m.magic_points;
+            c.save().success(function() {
+              socket.emit('getbattlers', { character: c, monster: m });
+            });
+          });
+        }
       });
     });
   });
