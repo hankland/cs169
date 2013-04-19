@@ -49,10 +49,20 @@ module.exports = function(err, socket, session) {
   socket.on('disconnect', function() {
   });
 
+  socket.on('save', function(data) {
+    Character.find(session.character).success(function(c) {
+      character = data.c;
+      c.current_health_points = character.current_health_points;
+      c.save();
+    });
+  });
+
   /* TESTING */
   socket.on('getbattlers', function(data) {
-    Character.find(session.character).success(function(c) {
-      socket.emit('getbattlers', { character: c, monster: data.monster });
+    Monster.create({ name: 'DummyMonster' }).success(function(m) {
+      Character.find(session.character).success(function(c) {
+        socket.emit('getbattlers', { character: c, monster: m });
+      });
     });
   });
 }

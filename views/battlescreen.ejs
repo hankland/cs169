@@ -13,10 +13,12 @@
       // destroy monster
       // alert("The battle ended because you disconnected.");
     });
-
+    monster = {name: ""};
+    
     socket.on('getbattlers', function(data) {
       character = data.character;
       monster = data.monster;
+      character.current_monster_health = monster.health_points;
     });
 
     socket.emit('getbattlers', {});
@@ -138,11 +140,15 @@
     showCommandMenu();
   }
 
+  function save() {
+    socket.emit('save', {c: character});
+  }
+
   /* Update player/monster info. */
   function updateBattleInfo() {
     $('#allyname').html("<b><%= character.name %></b>");
     $('#allyhp').html("HP: <%= character.current_health_points %> / <%= character.health_points %>");
-    $('#allymp').html("HP: <%= character.current_magic_points %> / <%= character.magic_points %>");
+    $('#allymp').html("MP: <%= character.current_magic_points %> / <%= character.magic_points %>");
     $('#enemyname').html("<b><%= monster.name %></b>");
     $('#enemyhp').html("Dodge Rate: 50%");
   }
@@ -157,7 +163,15 @@
   function nextActor() {
     if (actor == ALLY_TURN) {
       actor = ENEMY_TURN;
-      display("It's now the enemy's turn. The enemy just watches you...");
+      if (defending) {
+        display("The enemy attacks... but you were defending so it doesn't do any damage.");
+      } else {
+        display("It's now the enemy's turn. The enemy attacks you...");
+        character.current_health_points = character.current_health_points + character.physical_defense - monster.physical_attack;
+        var h = character.current_health_points;
+        var s = h.toString();
+        $('#allyhp').html(s.concat("/ <%= character.health_points %> HP"));
+      }
       showNextMenu('continue');
     } else if (actor == ENEMY_TURN) {
       incrementTurn();
@@ -170,11 +184,14 @@
   /* Use the ATTACK battle command.
    * The attacker and attackee must be characters or enemies. */
   function attack(attacker, attackee) {
-    var battleDice = Math.floor((Math.random() * 10) + 1);
+    defending = false;
+    var battleDice = Math.floor((Math.random() * 15) + 1);
     if (battleDice > 5) {
-      var enemyhp = 0;
-      if (enemyhp > 0) {
-        // enemy damage
+      character.current_monster_health = character.current_monster_health + monster.physical_defense - character.physical_attack;
+      if (character.current_monster_health > 0) {
+        var h = character.current_monster_health;
+        var s = h.toString();
+        $('#enemyhp').html(s.concat("/ 50 HP")); 
       } else {
         kill();
       }
@@ -197,14 +214,22 @@
    * The defender must be a character or enemy. */
   function defend(defender) {
     display("You go into defensive stance!");
+    defending = true;
     showNextMenu('continue');
   }
 
   /* Use the FLEE battle command.
    * The fleer must be a character or enemy. */
   function flee(fleer) {
-    display("You've fled the battle!");
-    showNextMenu('end');
+    defending = false;
+    var battleDice = Math.floor((Math.random() * 15) + 1);
+    if (battleDice > 10) {
+      display("You've fled the battle!");
+      showNextMenu('end');
+    } else {
+      display("You've failed to flee.");
+      showNextMenu('continue');
+    }
   }
 
   function kill(killer, killee) {
@@ -216,6 +241,7 @@
 
   /* End the battle. */
   function finishBattle() {
+    save();
     display("The battle has ended! You've earned a total of "
 	    + totalEXPGained + " EXP this battle.");
     showEndMenu();
