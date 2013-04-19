@@ -6,6 +6,17 @@
   <body>
     <center>
     <script src="/socket.io/socket.io.js"></script>
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    
+    <div id="charbox" style="float:left;width:150px;height:100px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
+      <div id="char" style="float:center;">
+        <p>
+          <div id="charname"></div>
+          <div id="charlvl"></div>
+          <div id="charhp"></div>
+        </p>
+      </div>
+    </div>
     <script>
       var socket = io.connect('/');
 
@@ -50,7 +61,7 @@
       socket.emit('getmap', {});
     </script>
 
-    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #c3c3c3;">
+    <canvas id="myCanvas" width="500" height="500" style="overflow:hidden;border:1px solid #c3c3c3;">
     Your browser does not support the HTML5 canvas tag.
     </canvas>
 
@@ -64,7 +75,12 @@
 
       var should_render = true;
       var keysDown = {};
+      
+      //Character information
       var myname = "";
+      var myhp = <%= character.health_points %>;
+      var mylvl = <%= character.level %>;
+      
       var areamap = "";
       players = new Array();
 
@@ -74,7 +90,7 @@
       var AREA_WIDTH = 20; // x-dimension size
       var AREA_HEIGHT = 20; // y-dimension size
       var TILE_SIZE = 25; // side of a single area tile
-      var ENCOUNTER_RATE = 10; // odds of random battle encounter (higher => less likely)
+      var ENCOUNTER_RATE = 20; // odds of random battle encounter (higher => less likely)
       
       /* Handles key presses. */
       addEventListener("keydown", function (e) {
@@ -191,10 +207,16 @@
         }
       };
 
+      var displayinfo = function () {
+          $('#charname').html("<b><%= character.name %></b>");
+          $('#charlvl').html("LVL <%= character.level %>");
+          $('#charhp').html("HP: <%= character.current_health_points %> / <%= character.health_points %>");
+        };
       /* Update character information and graphical display. */
       var main = function () {
           update();
           render();
+          displayinfo();
       };
 
       /* Move the character's location, if desired. */
@@ -203,6 +225,8 @@
             socket.emit('move', { xpos: boxman.newx, ypos: boxman.newy});
           }
       };
+      
+
 
       /* Set the rate at which we should call each method. */
       setInterval(main, 1);
@@ -217,6 +241,9 @@
         </p>
       </form>
     </div>
+    
+
+    
     </center>
   </body>
 </html>

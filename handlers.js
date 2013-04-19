@@ -54,7 +54,7 @@ var mountain =  "MBBBBBBBBBBBBBBBBBBBB" +
 								 "BAAAAAAAAAAAAAAAAAAB" +
 								 "BBBBBBBBBBBBBBBBBBBB";
 
-var defaultArea = mountain; // the area we want to use for overworld
+var defaultArea = forest; // the area we want to use for overworld
 var AREA_WIDTH = Math.floor(Math.sqrt(defaultArea.length)); // x-dimension size
 var AREA_HEIGHT = Math.floor(Math.sqrt(defaultArea.length)); // y-dimension size
 var TILE_SIZE = Math.floor(500/(Math.sqrt(defaultArea.length))); // side of a single area tile
