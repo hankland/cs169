@@ -116,25 +116,33 @@
         if (should_render) {
           ctx.clearRect(0, 0, TILE_SIZE * AREA_WIDTH, TILE_SIZE * AREA_HEIGHT);
 
+	      var img1 = new Image();
+	      var img2 = new Image();
+	      var img3 = new Image();
+	      //Terrain Choice
+	      if (areamap[0] == 'F') { 
+			    img1.src = "/images/ForestFloor.png";
+			    img2.src = "/images/ForestWall.png";
+			    img3.src = "/images/Portal.png";
+	      } else if (areamap[0] == 'M') {
+				  img1.src = "/images/MountainFloor.png";
+				  img2.src = "/images/MountainWall.png";
+				  img3.src = "/images/Portal.png";
+			  }
+	      var floor = ctx.createPattern(img1,"repeat");
+	      var wall = ctx.createPattern(img2,"repeat");
+	      var portal = ctx.createPattern(img3,"repeat");
+              
           // Draw the area's terrain
-          for(var i = 0; i < areamap.length; i++) {
+          for(var i = 0; i < areamap.length-1; i++) {
               var x = i % AREA_WIDTH;
               var y = (i - x) / AREA_HEIGHT;
-              var img1 = new Image();
-              var img2 = new Image();
-              var img3 = new Image();
-              //modify here for different terrain 
-              img1.src = "/images/ForestFloor.png";
-              img2.src = "/images/ForestWall.png";
-              img3.src = "/images/Portal.png";
-              var floor = ctx.createPattern(img1,"repeat");
-              var tree = ctx.createPattern(img2,"repeat");
-              var portal = ctx.createPattern(img3,"repeat");
-              if (areamap[i] == 'A') {
+
+              if (areamap[i+1] == 'A') {
                 ctx.fillStyle = floor;
-              } else if (areamap[i] == 'B') {
-                ctx.fillStyle = tree;
-              } else if (areamap[i] == 'C') {
+              } else if (areamap[i+1] == 'B') {
+                ctx.fillStyle = wall;
+              } else if (areamap[i+1] == 'C') {
                 ctx.fillStyle = portal;
               }
               ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);

@@ -5,35 +5,56 @@ Character = require('./models').Character;
 Monster = require('./models').Monster;
 Item = require('./models').Item;
 
-var smallArea = "ACBAABACCBBABCAAABBABAABC";
-var largeArea = "";
+var smallArea = "FACBAABACCBBABCAAABBABAABC";
+var largeArea = "F";
 
-for (var i = 0; i < 20*20; i++) {
+for (var i = 1; i < 20*20; i++) {
   largeArea += "A";
 }
 
-var forest = "BBBBBBBBBBBBBBBBBBBB" + 
-	     "BCAAAAAAAAAAAAAAAAAB" +
-	     "BBBBBBBBBBBBBBBBBBAB" +
-	     "BAAAAAAAAAAAAAAAAAAB" +
-	     "BABBBBBBBBBBBBBBBBBB" + //5
-	     "BAAAAAAAAAAAAAAAAAAB" +
-	     "BBBBBBBBBBBBBBBBBBAB" +
-	     "BAAAAAAAAAAAAAAAAAAB" +
-	     "BABBBBBBBBBBBBBBBBBB" +
-	     "BAAAAAAAAAAAAAAAAAAB" + //10
-	     "BBBBBBBBBBBBBBBBBBAB" +
-	     "BAAAAAAAAAAAAAAAAAAB" +
-	     "BABBBBBBBBBBBBBBBBBB" +
-	     "BAAAAAAAAAAAAAAAAAAB" +
-	     "BBBBBBBBBBBBBBBBBBAB" + //15
-	     "BAAAAAAAAAAAAAAAAAAB" +
-	     "BABBBBBBBBBBBBBBBBBB" +
-	     "BABBBBBBBBBBBBBBBBBB" +
-	     "BAAAAAAAAAAAAAAAAACB" +
-	     "BBBBBBBBBBBBBBBBBBBB";
+var forest = "FBBBBBBBBBBBBBBBBBBBB" + 
+							"BCAAAAAAAAAAAAAAAAAB" +
+							"BBBBBBBBBBBBBBBBBBAB" +
+							"BAAAAAAAAAAAAAAAAAAB" +
+							"BABBBBBBBBBBBBBBBBBB" + //5
+							"BAAAAAAAAAAAAAAAAAAB" +
+							"BBBBBBBBBBBBBBBBBBAB" +
+							"BAAAAAAAAAAAAAAAAAAB" +
+							"BABBBBBBBBBBBBBBBBBB" +
+							"BAAAAAAAAAAAAAAAAAAB" + //10
+							"BBBBBBBBBBBBBBBBBBAB" +
+							"BAAAAAAAAAAAAAAAAAAB" +
+							"BABBBBBBBBBBBBBBBBBB" +
+							"BAAAAAAAAAAAAAAAAAAB" +
+							"BBBBBBBBBBBBBBBBBBAB" + //15
+							"BAAAAAAAAAAAAAAAAAAB" +
+							"BABBBBBBBBBBBBBBBBBB" +
+							"BABBBBBBBBBBBBBBBBBB" +
+							"BAAAAAAAAAAAAAAAAACB" +
+							"BBBBBBBBBBBBBBBBBBBB";
+	      
+var mountain =  "MBBBBBBBBBBBBBBBBBBBB" + 
+								 "BCAAAAAAAAAAAAAAAAAB" +
+								 "BBBBBBBBBBBBBBBBBBAB" +
+								 "BAAAAAAAAAAAAAAAABAB" +
+								 "BABBBBBBBBBBBBBBABAB" + //5
+								 "BABAAAAAAAAAAAABABAB" +
+								 "BABABBBBBBBBBBABABAB" +
+								 "BABABAAAAAAAABABABAB" +
+								 "BABABABBBBBBABABABAB" +
+								 "BABABABAAAABABABABAB" + //10
+								 "BABABABABCABABABABAB" +
+								 "BABABABABBBBABABABAB" +
+								 "BABABABAAAAAABABABAB" +
+								 "BABABABBBBBBBBABABAB" +
+								 "BABABAAAAAAAAAABABAB" + //15
+								 "BABABBBBBBBBBBBBABAB" +
+								 "BABAAAAAAAAAAAAAABAB" +
+								 "BABBBBBBBBBBBBBBBBAB" +
+								 "BAAAAAAAAAAAAAAAAAAB" +
+								 "BBBBBBBBBBBBBBBBBBBB";
 
-var defaultArea = forest; // the area we want to use for overworld
+var defaultArea = mountain; // the area we want to use for overworld
 var AREA_WIDTH = Math.floor(Math.sqrt(defaultArea.length)); // x-dimension size
 var AREA_HEIGHT = Math.floor(Math.sqrt(defaultArea.length)); // y-dimension size
 var TILE_SIZE = Math.floor(500/(Math.sqrt(defaultArea.length))); // side of a single area tile
