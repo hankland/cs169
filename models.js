@@ -22,6 +22,7 @@ User.hasMany(Character);
 Character.hasMany(Item);
 Area.hasMany(Character);
 Area.hasMany(Monster);
+Character.hasOne(Monster);
 
 /* Fields to access models more easily. */
 module.exports.User = User;
