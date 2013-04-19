@@ -18,7 +18,8 @@ var express = require('express')
   , battle = require('./routes/battle.js')
   , end_battle = require('./routes/end_battle.js')
   , attack = require('./routes/attack.js')
-  , update_experience = require('./routes/update_experience.js');
+  , update_experience = require('./routes/update_experience.js')
+  , flee = require('./routes/battle_commands.js').flee;
 
 
 var app = express();
@@ -57,6 +58,7 @@ app.get('/battle', battle);
 app.post('/attack', attack);
 app.get('/end_battle', end_battle);
 app.post('/update_experience', update_experience);
+app.post('/flee', flee);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

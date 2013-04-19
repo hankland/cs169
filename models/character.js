@@ -3,6 +3,7 @@
 /* Some constants I've added for now. */
 var MIN_NAME_LENGTH = 1;
 var MAX_NAME_LENGTH = 16;
+var MAX_INVENTORY_SIZE = 16;
 
 /* Error codes. */
 var SUCCESS = 0;
@@ -37,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: 0
     },
     inventory: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      type: DataTypes.ARRAY(DataTypes.INTEGER)
     },
     health_points: {
       type: DataTypes.INTEGER,

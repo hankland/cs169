@@ -10,6 +10,7 @@ var app = require('../app');
 
 /* Our routes. */
 var endBattle = require('../routes/end_battle');
+var battleCommands = require('../routes/battle_commands');
 
 /* Our models. */
 User = require('../models').User;
@@ -59,6 +60,22 @@ describe('TEST_BATTLE', function() {
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .end(function(err, res) {
+            done();
+          });
+      });
+    })
+  })
+
+  describe('flee', function() {
+    it('should return true or false', function(done) {
+      Character.find({where: {name: "Bob"}}).success(function(c) {
+        request(app)
+          .post('/flee')
+          .send({})
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            assert.notEqual(null, res.body.success);
             done();
           });
       });
