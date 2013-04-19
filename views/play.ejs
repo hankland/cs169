@@ -14,6 +14,7 @@
         if (data.name === myname) {
           boxman.x = boxman.newx = data.xpos;
           boxman.y = boxman.newy = data.ypos;
+          boxman.loc = boxman.newloc = data.location;
           var battleDice = Math.floor((Math.random() * ENCOUNTER_RATE) + 1);
           if (battleDice == ENCOUNTER_RATE) {
             window.location.href = '/battle';
@@ -32,7 +33,21 @@
       /* Update the area and render it. */
       socket.on('getmap', function(data) {
         areamap = data.areamap;
+        areaname = data.areaname;
         should_render = true;
+      });
+
+      /* Retrieve Portal Locations and Destinations */
+      socket.on('getportals', function(data) {
+        if (areaname == "forest") {
+          portals = data.forest;
+        } else if (areaname == "smallArea") {
+          portals = data.smallArea;
+        } else if (areaname == "largeArea") {
+          portals = data.largeArea;
+        } else {
+          portals = {};
+        }
       });
 
       /* Retrieve character name. */
@@ -45,9 +60,11 @@
         // alert("You've left the overworld.");
       });
 
-      /* Emit stuff. */
-      socket.emit('name', {});
-      socket.emit('getmap', {});
+        /* Emit stuff. */
+        socket.emit('name', {});
+        socket.emit('getmap', {});
+        socket.emit('getportals', {});
+
     </script>
 
     <canvas id="myCanvas" width="500" height="500" style="border:1px solid #c3c3c3;">
@@ -59,13 +76,17 @@
           x: <%= character.xpos %>,
           y: <%= character.ypos %>,
           newx: <%= character.xpos %>,
-          newy: <%= character.ypos %>
+          newy: <%= character.ypos %>,
+          loc: areaname,
+          newloc: areaname
       };
 
       var should_render = true;
       var keysDown = {};
       var myname = "";
       var areamap = "";
+      var areaname = "";
+      var portals = [];
       players = new Array();
 
       var c = document.getElementById("myCanvas");
@@ -74,7 +95,7 @@
       var AREA_WIDTH = 20; // x-dimension size
       var AREA_HEIGHT = 20; // y-dimension size
       var TILE_SIZE = 25; // side of a single area tile
-      var ENCOUNTER_RATE = 10; // odds of random battle encounter (higher => less likely)
+      var ENCOUNTER_RATE = 50; // odds of random battle encounter (higher => less likely)
       
       /* Handles key presses. */
       addEventListener("keydown", function (e) {
@@ -91,40 +112,32 @@
           if (38 in keysDown) { // Player holding up
               boxman.newy = boxman.y - 1;
               boxman.newx = boxman.x;
-              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
-                boxman.newy = boxman.y;
-                boxman.newx = boxman.x;
-              }
           }
           if (40 in keysDown) { // Player holding down
               boxman.newy = boxman.y + 1;
               boxman.newx = boxman.x;
-              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
-                boxman.newy = boxman.y;
-                boxman.newx = boxman.x;
-              }
           }
           if (37 in keysDown) { // Player holding left
               boxman.newy = boxman.y;
               boxman.newx = boxman.x - 1;
-              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
-                boxman.newy = boxman.y;
-                boxman.newx = boxman.x;
-              }
           }
           if (39 in keysDown) { // Player holding right
               boxman.newx = boxman.x + 1;
               boxman.newy = boxman.y;
-              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
-                boxman.newy = boxman.y;
-                boxman.newx = boxman.x;
-              }
           }
           // Prevent character from passing area boundaries
           if (boxman.newy < 0) { boxman.newy = 0; }
           if (boxman.newx < 0) { boxman.newx = 0; }
           if (boxman.newy >= AREA_HEIGHT) { boxman.newy = AREA_HEIGHT - 1; }
           if (boxman.newx >= AREA_WIDTH) { boxman.newx = AREA_WIDTH - 1; }
+          for (var i = 0; i < portals.length; i++) {
+            if (portals[i] != {} && boxman.newx == portals[i].xpos && boxman.newy == portals[i].ypos) {
+              boxman.newloc = portals[i].destination;
+              boxman.newx = 0;
+              boxman.newy = 0;
+              break;
+            }
+          }
       };
       
       /* Draw out the game overworld. */
@@ -132,33 +145,25 @@
         if (should_render) {
           ctx.clearRect(0, 0, TILE_SIZE * AREA_WIDTH, TILE_SIZE * AREA_HEIGHT);
 
-	      var img1 = new Image();
-	      var img2 = new Image();
-	      var img3 = new Image();
-	      //Terrain Choice
-	      if (areamap[0] == 'F') { 
-			    img1.src = "/images/ForestFloor.png";
-			    img2.src = "/images/ForestWall.png";
-			    img3.src = "/images/Portal.png";
-	      } else if (areamap[0] == 'M') {
-				  img1.src = "/images/MountainFloor.png";
-				  img2.src = "/images/MountainWall.png";
-				  img3.src = "/images/Portal.png";
-			  }
-	      var floor = ctx.createPattern(img1,"repeat");
-	      var wall = ctx.createPattern(img2,"repeat");
-	      var portal = ctx.createPattern(img3,"repeat");
-              
           // Draw the area's terrain
-          for(var i = 0; i < areamap.length-1; i++) {
+          for(var i = 0; i < areamap.length; i++) {
               var x = i % AREA_WIDTH;
               var y = (i - x) / AREA_HEIGHT;
-
-              if (areamap[i+1] == 'A') {
-                ctx.fillStyle = floor;
-              } else if (areamap[i+1] == 'B') {
-                ctx.fillStyle = wall;
-              } else if (areamap[i+1] == 'C') {
+              var img1 = new Image();
+              var img2 = new Image();
+              var img3 = new Image();
+              //modify here for different terrain 
+              img1.src = "/images/ForestFloor.png";
+              img2.src = "/images/ForestWall.png";
+              img3.src = "/images/Portal.png";
+              var floor = ctx.createPattern(img1,"repeat");
+              var tree = ctx.createPattern(img2,"repeat");
+              var portal = ctx.createPattern(img3,"repeat");
+              if (areamap[i] == 'A') {
+                ctx.fillStyle = floor
+              } else if (areamap[i] == 'B') {
+                ctx.fillStyle = tree;
+              } else if (areamap[i] == 'C') {
                 ctx.fillStyle = portal;
               }
               ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -199,9 +204,15 @@
 
       /* Move the character's location, if desired. */
       var move = function () {
-          if (boxman.newx != boxman.x || boxman.newy != boxman.y) {
-            socket.emit('move', { xpos: boxman.newx, ypos: boxman.newy});
+          if (boxman.newx != boxman.x || boxman.newy != boxman.y || boxman.newloc != boxman.loc) {
+            socket.emit('move', { xpos: boxman.newx, ypos: boxman.newy, location: boxman.newloc});
           }
+          socket.emit('getmap', {});
+          socket.emit('getportals', {});
+      };
+
+      var emit = function() {
+          socket.emit('getmap', {});
       };
 
       /* Set the rate at which we should call each method. */
