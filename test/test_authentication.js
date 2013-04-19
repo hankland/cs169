@@ -15,7 +15,6 @@ var register = require('../routes/register');
 User = require('../models').User;
 Character = require('../models').Character;
 
-
 describe('TEST_AUTHENTICATION', function() {
   before(function(done) {
     User.drop();
@@ -25,8 +24,6 @@ describe('TEST_AUTHENTICATION', function() {
 
   /* TEST REGISTRATION */
   describe('POST /register', function() {
-    before(function() {
-    })
     it('should add a new User if no existing User has the same name', function(done) {
       request(app)
         .post('/register')
@@ -35,7 +32,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, null);
+          assert.equal(0, res.body.err);
           done();
         });
     })
@@ -47,7 +44,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, -110);
+          assert.equal(-110, res.body.err);
           done();
         });
     })
@@ -59,7 +56,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, -100);
+          assert.equal(-100, res.body.err);
           done();
         });
     })
@@ -75,7 +72,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, null);
+          assert.equal(0, res.body.err);
           done();
         });
     })
@@ -87,7 +84,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, -111);
+          assert.equal(-111, res.body.err);
           done();
         });
     })
@@ -99,7 +96,7 @@ describe('TEST_AUTHENTICATION', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          assert.equal(res.body.err, -101);
+          assert.equal(-101, res.body.err);
           done();
         });
     })

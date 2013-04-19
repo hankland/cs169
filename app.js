@@ -1,14 +1,12 @@
-
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , routes = require('./routes')
+var express = require('express');
+var routes = require('./routes')
   , http = require('http')
   , path = require('path')
-  , handlers = require('./handlers')
-  , register = require('./routes/register.js')
+  , handlers = require('./handlers');
+var register = require('./routes/register.js')
   , login = require('./routes/login.js')
   , logout = require('./routes/logout.js')
   , account = require('./routes/account.js')
@@ -17,9 +15,9 @@ var express = require('express')
   , play = require('./routes/play.js')
   , battle = require('./routes/battle.js')
   , end_battle = require('./routes/end_battle.js')
-  , attack = require('./routes/attack.js')
-  , update_experience = require('./routes/update_experience.js')
-  , flee = require('./routes/battle_commands.js').flee;
+  , attack = require('./routes/battle_commands.js').attack
+  , flee = require('./routes/battle_commands.js').flee
+  , update_experience = require('./routes/update_experience.js');
 
 var app = express();
 var cookieParser = express.cookieParser('your secret here')
@@ -55,9 +53,9 @@ app.post('/select_character', select_character);
 app.get('/play', play);
 app.get('/battle', battle);
 app.post('/attack', attack);
+app.post('/flee', flee);
 app.get('/end_battle', end_battle);
 app.post('/update_experience', update_experience);
-app.post('/flee', flee);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
