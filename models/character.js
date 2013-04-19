@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
         len: [MIN_NAME_LENGTH, MAX_NAME_LENGTH]
       }
     },
+    location: {
+      type: DataTypes.STRING,
+      defaultValue: 'forest'
+    },
     xpos: {
       type: DataTypes.INTEGER,
       defaultValue: 0

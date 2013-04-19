@@ -47,16 +47,29 @@ module.exports = function(err, socket, session) {
   socket.join('area_name');
 
   socket.on('getmap', function(data) {
-    socket.emit('getmap', {areamap: defaultArea});
+    Character.find(session.character).success(function(c) {
+	if (c.location == 'forest') {
+            socket.emit('getmap', {areamap: forest, areaname: 'forest'});
+	} else if (c.location == 'smallArea') {
+	    socket.emit('getmap', {areamap: smallArea, areaname: 'smallArea'});
+	} else if (c.location == 'largeArea') {
+	    socket.emit('getmap', {areamap: largeArea, areaname: 'largeArea'});
+	}
+    });
   });
+
+    socket.on('getportals', function(data) {
+	socket.emit('getportals', { forest: [{ xpos: 1, ypos: 1, destination: 'largeArea' }], smallArea: [{}], largeArea: [{}] });
+    });
 
   socket.on('move', function(data) {
     Character.find(session.character).success(function(c) {
       if (data.xpos >= 0 && data.xpos < AREA_WIDTH && data.ypos >= 0 && data.ypos < AREA_HEIGHT) {
         c.xpos = data.xpos;
         c.ypos = data.ypos;
+        c.location = data.location;
         c.save();
-        io.sockets.in('area_name').emit('move', { name: c.name, xpos: c.xpos, ypos: c.ypos });
+        io.sockets.in('area_name').emit('move', { name: c.name, xpos: c.xpos, ypos: c.ypos, location: c.location });
       }
     });
   });
