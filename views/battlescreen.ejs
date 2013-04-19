@@ -192,6 +192,7 @@
         var h = character.current_monster_health;
         var s = h.toString();
         $('#enemyhp').html(s.concat("/ 50 HP")); 
+        showNextMenu('continue');
       } else {
         kill();
       }
