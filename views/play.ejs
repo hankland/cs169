@@ -91,18 +91,34 @@
           if (38 in keysDown) { // Player holding up
               boxman.newy = boxman.y - 1;
               boxman.newx = boxman.x;
+              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
+                boxman.newy = boxman.y;
+                boxman.newx = boxman.x;
+              }
           }
           if (40 in keysDown) { // Player holding down
               boxman.newy = boxman.y + 1;
               boxman.newx = boxman.x;
+              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
+                boxman.newy = boxman.y;
+                boxman.newx = boxman.x;
+              }
           }
           if (37 in keysDown) { // Player holding left
               boxman.newy = boxman.y;
               boxman.newx = boxman.x - 1;
+              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
+                boxman.newy = boxman.y;
+                boxman.newx = boxman.x;
+              }
           }
           if (39 in keysDown) { // Player holding right
               boxman.newx = boxman.x + 1;
               boxman.newy = boxman.y;
+              if (areamap[boxman.newy * AREA_HEIGHT + boxman.newx + 1] == 'B') {
+                boxman.newy = boxman.y;
+                boxman.newx = boxman.x;
+              }
           }
           // Prevent character from passing area boundaries
           if (boxman.newy < 0) { boxman.newy = 0; }
