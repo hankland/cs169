@@ -74,19 +74,14 @@ module.exports = function(sequelize, DataTypes) {
     current_magic_points: {
       type: DataTypes.INTEGER,
       defaultValue: 100
-    }
-  }, {
-    instanceMethods: {
-      attack: function(target) {
-        var physicalAttack = this.physical_attack;
-        var physicalDefense = target.physical_defense;
-        var damage = physicalAttack - physicalDefense;
-        if (damage < 0) {
-          damage = 0;
-        }
-        target.current_health_points = target.current_health_points - damage;
-        target.save();
-      }
+    },
+    current_monster_health: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    current_monster_magic: {
+      type: DataTypes.INTEGER,
+      defaulValue: 0
     }
   });
 }

@@ -18,7 +18,8 @@ Class.hasMany(Character);
 User.hasMany(Character);
 User.hasMany(Item);
 Area.hasMany(Character);
-
+Area.hasMany(Monster);
+Character.hasOne(Monster);
 
 module.exports.User = User;
 module.exports.Character = Character;
