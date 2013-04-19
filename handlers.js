@@ -12,7 +12,28 @@ for (var i = 0; i < 20*20; i++) {
   largeArea += "A";
 }
 
-var defaultArea = largeArea; // the area we want to use for overworld
+var forest = "BBBBBBBBBBBBBBBBBBBB" + 
+	     "BCAAAAAAAAAAAAAAAAAB" +
+	     "BBBBBBBBBBBBBBBBBBAB" +
+	     "BAAAAAAAAAAAAAAAAAAB" +
+	     "BABBBBBBBBBBBBBBBBBB" + //5
+	     "BAAAAAAAAAAAAAAAAAAB" +
+	     "BBBBBBBBBBBBBBBBBBAB" +
+	     "BAAAAAAAAAAAAAAAAAAB" +
+	     "BABBBBBBBBBBBBBBBBBB" +
+	     "BAAAAAAAAAAAAAAAAAAB" + //10
+	     "BBBBBBBBBBBBBBBBBBAB" +
+	     "BAAAAAAAAAAAAAAAAAAB" +
+	     "BABBBBBBBBBBBBBBBBBB" +
+	     "BAAAAAAAAAAAAAAAAAAB" +
+	     "BBBBBBBBBBBBBBBBBBAB" + //15
+	     "BAAAAAAAAAAAAAAAAAAB" +
+	     "BABBBBBBBBBBBBBBBBBB" +
+	     "BABBBBBBBBBBBBBBBBBB" +
+	     "BAAAAAAAAAAAAAAAAACB" +
+	     "BBBBBBBBBBBBBBBBBBBB";
+
+var defaultArea = forest; // the area we want to use for overworld
 var AREA_WIDTH = Math.floor(Math.sqrt(defaultArea.length)); // x-dimension size
 var AREA_HEIGHT = Math.floor(Math.sqrt(defaultArea.length)); // y-dimension size
 var TILE_SIZE = Math.floor(500/(Math.sqrt(defaultArea.length))); // side of a single area tile
