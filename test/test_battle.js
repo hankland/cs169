@@ -28,7 +28,7 @@ describe('TEST_BATTLE', function() {
     Character.sync();
     Monster.sync();
     
-    // add a fake user and log in with it
+    // add fake user with fake characters
     request(app)
       .post('/register')
       .send({ user: "Bob", password: "b" })
@@ -48,11 +48,26 @@ describe('TEST_BATTLE', function() {
           .end(function(err, res) {
             assert.equal(1, res.body.cid);
             assert.equal(0, res.body.err);
-            done();
+            var req2 = request(app).post('/create_character');
+            req2.cookies = Cookies;
+            req2
+              .send({ name: "Cat" })
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .end(function(err, res) {
+                assert.equal(2, res.body.cid);
+                assert.equal(0, res.body.err);
+                Monster.create().success(function(m) {
+                  assert.equal(1, m.id);
+                  done();
+                });
+              });
           });
       });
   })
 
+  /* TEST UPDATE EXPERIENCE. */
   describe('updateExperience', function() {
     it('should raise experience', function(done) {
       Character.find({where: {name: "Dog"}}).success(function(c) {
@@ -88,22 +103,38 @@ describe('TEST_BATTLE', function() {
     })
   })
 
+  /* TEST ATTACK. */
   describe('attack', function() {
     it('should decrease the target\'s HP', function(done) {
-      Character.find({where: {name: "Bob"}}).success(function(c) {
-        request(app)
-          .post('/attack')
-          .send({})
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .end(function(err, res) {
-            assert.equal(500, res.body.err);
-            done();
-          });
+      Character.find({where: {name: "Dog"}}).success(function(c1) {
+        Character.find({where: {name: "Cat"}}).success(function(c2) {
+          var req = request(app).post('/attack');
+          req.cookies = Cookies;
+          req
+            .send({cid: c1, mid: c2})
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+              assert.equal(null, res.body.err);
+              done();
+            });
+        });
       });
+    })
+    it('should do nothing if no attacker or attackee provided', function(done) {
+      request(app)
+        .post('/attack')
+        .send({})
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          assert.equal(500, res.body.err);
+          done();
+        });
     })
   })
 
+  /* TEST FLEE. */
   describe('flee', function() {
     it('should return true or false', function(done) {
       Character.find({where: {name: "Bob"}}).success(function(c) {
@@ -120,10 +151,30 @@ describe('TEST_BATTLE', function() {
     })
   })
 
-  describe.skip('endBattle', function() {
+  /* TEST ENTERING BATTLE. */
+  describe('/battle', function() {
+    it('should enter battle', function(done) {
+      Character.find({where: {name: "Bob"}}).success(function(c) {
+        Monster.find(1).success(function(m) {
+          var req = request(app).get('/battle');
+          req.cookies = Cookies;
+          req
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+              done();
+            });
+        });
+      });
+    })
+  })
+
+  /* TEST ENDING BATTLE. */
+  describe('/endBattle', function() {
     it('should return to game overworld', function(done) {
-      request(app)
-        .get('/end_battle')
+      var req = request(app).get('/endBattle');
+      req.cookies = Cookies;
+      req
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .end(function(err, res) {
@@ -135,8 +186,10 @@ describe('TEST_BATTLE', function() {
   after(function(done) {
     User.drop();
     Character.drop();
+    Monster.drop();
     User.sync();
     Character.sync();
+    Monster.sync();
     done();
   })
 })

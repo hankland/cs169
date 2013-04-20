@@ -116,6 +116,18 @@ describe('TEST_CHARACTERS', function() {
     })
   })
 
+  /* TEST CHARACTER SELECTION/CREATION SCREEN */
+  describe('/account', function() {
+    it('should render the account page', function(done) {
+      var req = request(app).get('/account');
+      req.cookies = Cookies;
+      req
+        .end(function(err, res) {
+          done();
+        });
+    })
+  })
+
   after(function(done) {
     User.drop();
     Character.drop();

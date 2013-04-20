@@ -27,26 +27,3 @@ describe.skip('move()', function() {
   })
 })
 
-/* TEST EQUIPMENT */
-describe.skip('equip()', function() {
-  it('should equip the item', function(done) {
-    // do something
-    done();
-  })
-})
-
-/* TEST UNEQUIPMENT */
-describe.skip('unequip()', function() {
-  it('should unequip the item', function(done) {
-    // do something
-    done();
-  })
-})
-
-/* TEST INTERACTION WITH NPCS */
-describe.skip('talk_to_npc()', function() {
-  it('should talk to the NPC', function(done) {
-    // do something
-    done();
-  })
-})

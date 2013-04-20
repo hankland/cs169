@@ -113,6 +113,17 @@ describe('TEST_AUTHENTICATION', function() {
         });
     })
   })
+
+  /* TEST INDEX */
+  describe('/index', function() {
+    it('should go to home page', function(done) {
+      request(app)
+        .get('/')
+        .end(function(err, res) {
+          done();
+        });
+    })
+  })
   
   after(function(done) {
     User.drop();
