@@ -13,7 +13,7 @@ for (var i = 0; i < 20*20; i++) {
   largeArea += "A";
 }
 
-var forest = "FBBBBBBBBBBBBBBBBBBBB" + 
+var forest =                                            "FBBBBBBBBBBBBBBBBBBBB" + 
 							"BCAAAAAAAAAAAAAAAAAB" +
 							"BBBBBBBBBBBBBBBBBBAB" +
 							"BAAAAAAAAAAAAAAAAAAB" +
@@ -34,7 +34,7 @@ var forest = "FBBBBBBBBBBBBBBBBBBBB" +
 							"BAAAAAAAAAAAAAAAAACB" +
 							"BBBBBBBBBBBBBBBBBBBB";
 	      
-var mountain =  "MBBBBBBBBBBBBBBBBBBBB" + 
+var mountain =                                                   "MBBBBBBBBBBBBBBBBBBBB" + 
 								 "BCAAAAAAAAAAAAAAAAAB" +
 								 "BBBBBBBBBBBBBBBBBBAB" +
 								 "BAAAAAAAAAAAAAAAABAB" +
@@ -72,6 +72,8 @@ module.exports = function(err, socket, session) {
     Character.find(session.character).success(function(c) {
 	if (c.location == 'forest') {
             socket.emit('getmap', {areamap: forest, areaname: 'forest'});
+	} else if (c.location == 'mountain') {
+	    socket.emit('getmap', {areamap: mountain, areaname: 'mountain'});
 	} else if (c.location == 'smallArea') {
 	    socket.emit('getmap', {areamap: smallArea, areaname: 'smallArea'});
 	} else if (c.location == 'largeArea') {
@@ -81,7 +83,7 @@ module.exports = function(err, socket, session) {
   });
 
     socket.on('getportals', function(data) {
-	socket.emit('getportals', { forest: [{ xpos: 1, ypos: 1, destination: 'largeArea' }], smallArea: [{}], largeArea: [{}] });
+	socket.emit('getportals', { forest: [{ xpos: 1, ypos: 1, destination: 'mountain' }, { xpos: 18, ypos: 18, destination: 'mountain' }], mountain: [{ xpos: 1, ypos: 1, destination: 'forest' }, { xpos: 9, ypos: 10, destination: 'forest' }], smallArea: [{}], largeArea: [{}] });
     });
 
   socket.on('move', function(data) {
