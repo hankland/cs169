@@ -13,15 +13,15 @@ for (var i = 0; i < 20*20; i++) {
   largeArea += "A";
 }
 
-var forest =                                            "FBBBBBBBBBBBBBBBBBBBB" + 
-							"BCAAAAAAAAAAAAAAAAAB" +
-							"BBBBBBBBBBBBBBBBBBAB" +
+var forest = "FAAABBBBBBBBBBBBBBBBB" + 
+							"ACAAAAAAAAAAAAAAAAAB" +
+							"AAABBBBBBBBBBBBBBBAB" +
 							"BAAAAAAAAAAAAAAAAAAB" +
 							"BABBBBBBBBBBBBBBBBBB" + //5
 							"BAAAAAAAAAAAAAAAAAAB" +
 							"BBBBBBBBBBBBBBBBBBAB" +
 							"BAAAAAAAAAAAAAAAAAAB" +
-							"BABBBBBBBBBBBBBBBBBB" +
+							"BAAAAABBAABBAABBBBBB" +
 							"BAAAAAAAAAAAAAAAAAAB" + //10
 							"BBBBBBBBBBBBBBBBBBAB" +
 							"BAAAAAAAAAAAAAAAAAAB" +
@@ -30,22 +30,22 @@ var forest =                                            "FBBBBBBBBBBBBBBBBBBBB" 
 							"BBBBBBBBBBBBBBBBBBAB" + //15
 							"BAAAAAAAAAAAAAAAAAAB" +
 							"BABBBBBBBBBBBBBBBBBB" +
-							"BABBBBBBBBBBBBBBBBBB" +
+							"BABBBBBBBBBBBBBBBAAB" +
 							"BAAAAAAAAAAAAAAAAACB" +
 							"BBBBBBBBBBBBBBBBBBBB";
 	      
-var mountain =                                                   "MBBBBBBBBBBBBBBBBBBBB" + 
-								 "BCAAAAAAAAAAAAAAAAAB" +
-								 "BBBBBBBBBBBBBBBBBBAB" +
+var mountain =  "MAAABBBBBBBBBBBBBBBBB" + 
+								 "ACAAAAAAAAAAAAAAAAAB" +
+								 "AAABBBBBBAABBBBBBBAB" +
 								 "BAAAAAAAAAAAAAAAABAB" +
-								 "BABBBBBBBBBBBBBBABAB" + //5
+								 "BABBBBBBBAABBBBBABAB" + //5
 								 "BABAAAAAAAAAAAABABAB" +
-								 "BABABBBBBBBBBBABABAB" +
+								 "BABABBBBBAABBBABABAB" +
 								 "BABABAAAAAAAABABABAB" +
-								 "BABABABBBBBBABABABAB" +
+								 "BABABABBBAABABABABAB" +
 								 "BABABABAAAABABABABAB" + //10
-								 "BABABABABCABABABABAB" +
-								 "BABABABABBBBABABABAB" +
+								 "BABABABAACABABABABAB" +
+								 "BABABABAAAABABABABAB" +
 								 "BABABABAAAAAABABABAB" +
 								 "BABABABBBBBBBBABABAB" +
 								 "BABABAAAAAAAAAABABAB" + //15
@@ -83,7 +83,7 @@ module.exports = function(err, socket, session) {
   });
 
     socket.on('getportals', function(data) {
-	socket.emit('getportals', { forest: [{ xpos: 1, ypos: 1, destination: 'mountain' }, { xpos: 18, ypos: 18, destination: 'mountain' }], mountain: [{ xpos: 1, ypos: 1, destination: 'forest' }, { xpos: 9, ypos: 10, destination: 'forest' }], smallArea: [{}], largeArea: [{}] });
+	socket.emit('getportals', { forest: [{ xpos: 1, ypos: 1, destination: 'mountain', newxpos: 1, newypos: 2 }, { xpos: 18, ypos: 18, destination: 'mountain', newxpos: 9, newypos: 11 }], mountain: [{ xpos: 1, ypos: 1, destination: 'forest', newxpos: 1, newypos: 2 }, { xpos: 9, ypos: 10, destination: 'forest', newxpos: 18, newypos: 17 }], smallArea: [{}], largeArea: [{}] });
     });
 
   socket.on('move', function(data) {
@@ -111,8 +111,11 @@ module.exports = function(err, socket, session) {
     Character.find(session.character).success(function(c) {
       character = data.c;
       c.current_health_points = character.current_health_points;
-      // c.level = character.level;
-      // c.experience = character.experience;
+      c.level = character.level;
+      c.experience = character.experience;
+      c.location = character.location;
+      c.xpos = character.xpos;
+      c.ypos = character.ypos;
       c.save();
     });
   });
@@ -124,9 +127,11 @@ module.exports = function(err, socket, session) {
         if (monsters.length == 0) {
           socket.emit('getbattlers', {err: 500});
         } else {
-      	  var randomMonsterID = Math.floor((Math.random() * monsters.length) + 1);
+      	  // var randomMonsterID = Math.floor((Math.random() * monsters.length) + 1);
+          var randomMonsterID = 4;
           Monster.find({where: {id: randomMonsterID}}).success(function(m) {
       	    c.setMonster(m);
+            console.log("Facing against monster: " + m.name);
             c.current_monster_health = m.health_points;
             c.current_monster_magic = m.magic_points;
             c.save().success(function() {

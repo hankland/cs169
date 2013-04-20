@@ -10,7 +10,8 @@ module.exports = function(req, res){
         if (monsters.length == 0) {
           res.json({err: 500});
         } else {
-      	  var randomMonsterID = Math.floor((Math.random() * monsters.length) + 1);
+      	  // var randomMonsterID = Math.floor((Math.random() * monsters.length) + 1);
+          var randomMonsterID = 4;
           Monster.find({where: {id: randomMonsterID}}).success(function(m) {
       	    c.setMonster(m);
             c.current_monster_health = m.health_points;

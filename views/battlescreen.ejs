@@ -18,7 +18,8 @@
     socket.on('getbattlers', function(data) {
       character = data.character;
       monster = data.monster;
-      character.current_monster_health = monster.health_points;
+      // character.current_monster_health = monster.health_points;
+      // character.current_monster_magic = monster.magic_points;
     });
 
     socket.emit('getbattlers', {});
@@ -35,7 +36,7 @@
     </div>
     <!-- Enemy information -->
     <div id="enemybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
-      <div id="enemy" style="width:33%;float:center">
+      <div id="enemy" style="width:40%;float:center">
         <p>
           <div id="enemyname"></div><br />
           <div id="enemyhp"></div>
@@ -44,7 +45,7 @@
     </div>
     <!-- Ally information -->
     <div id="allybox" style="min-height:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
-      <div id="ally" style="width:33%;float:center;">
+      <div id="ally" style="width:40%;float:center;">
         <p>
           <div id="allyname"></div><br />
           <div id="allylevel"></div>
@@ -63,7 +64,7 @@
       <input id="button-defend" type="button" value="Defend" onclick="defend(character);">
       <input id="button-flee" type="button" value="Flee">
       <input id="button-overworld" type="button" value="Return to Overworld" onclick="switchToOverworld();">
-      <input id="button-logout" type="button" value="Logout" onclick="window.location.href ='/logout';">
+      <!--<input id="button-logout" type="button" value="Logout" onclick="window.location.href ='/logout';">-->
     </div>
     </center>
   </div>
@@ -148,7 +149,7 @@
   /* Update player/monster info. */
   function updateBattleInfo() {
     $('#allyname').html("<b><%= character.name %></b>");
-    // $('#allylevel').html("Level: <%= character.level %>, EXP: <%= character.experience %> / 100");
+    $('#allylevel').html("Level: <%= character.level %>, EXP: <%= character.experience %> / 100");
     $('#allyhp').html("HP: <%= character.current_health_points %> / <%= character.health_points %>");
     $('#allymp').html("MP: <%= character.current_magic_points %> / <%= character.magic_points %>");
     $('#enemyname').html("<b><%= monster.name %></b>");
@@ -168,18 +169,28 @@
       actor = ENEMY_TURN;
       if (defending) {
         display("The enemy attacks... but you were defending so it doesn't do any damage.");
+        showNextMenu('continue');
       } else {
         var damage = monster.physical_attack - character.physical_defense;
         if (damage < 0) {
           damage = 0;
+        } else if (damage > character.current_health_points) {
+          damage = character.current_health_points;
+          character.current_health_points = 0;
+          display("You were slain by the enemy... You will be revived at the original location.");
+          var h = character.current_health_points;
+          var s = h.toString();
+          $('#allyhp').html("HP: " + s.concat("/ <%= character.health_points %>"));
+          showNextMenu('end');
+        } else {
+          character.current_health_points -= damage;
+          display("It's now the enemy's turn. The enemy attacks you for " + damage + " damage...");
+          var h = character.current_health_points;
+          var s = h.toString();
+          $('#allyhp').html("HP: " + s.concat("/ <%= character.health_points %>"));
+          showNextMenu('continue');
         }
-        character.current_health_points -= damage;
-        var h = character.current_health_points;
-        var s = h.toString();
-        $('#allyhp').html("HP: " + s.concat("/ <%= character.health_points %>"));
-        display("It's now the enemy's turn. The enemy attacks you for " + damage + " damage...");
       }
-      showNextMenu('continue');
     } else if (actor == ENEMY_TURN) {
       incrementTurn();
       actor = ALLY_TURN;
@@ -247,27 +258,34 @@
   }
 
   function kill(killer, killee) {
-    /*post('/update_experience', { cid: character.id }, function(err, res) {
-      var cumulExperience = character.experience + monster.experience;
-      var levelIncrease = Math.floor(cumulExperience / 100);
-      var newExperience = cumulExperience % 100;
-      var newLevel = character.level + levelIncrease;
-      character.level = newLevel;
-      character.experience = newExperience;
-    });*/
-    totalEXPGained += 0;
-    // $('#allylevel').html(res.newLevel + "Level: <%= character.level %>, EXP: <%= character.experience %> / 100");
+    var cumulExperience = character.experience + monster.experience;
+    var levelIncrease = Math.floor(cumulExperience / 100);
+    var newExperience = cumulExperience % 100;
+    var newLevel = character.level + levelIncrease;
+    character.level = newLevel;
+    character.experience = newExperience;
+    totalEXPGained += monster.experience;
+    var cLevel = character.level.toString();
+    var cExperience = character.experience.toString();
+    $('#allylevel').html("Level: " + newLevel + ", EXP: " + newExperience + " / 100");
 
     var h = character.current_monster_health;
     var s = h.toString();
     $('#enemyhp').html("HP: " + s.concat("/ <%= monster.health_points %>")); 
-    display("You've slain the enemy!");
+    display("You've slain the enemy! You gained " + monster.experience + " experience!");
 
     showNextMenu('end');
   }
 
   /* End the battle. */
   function finishBattle() {
+    if (character.current_health_points == 0) {
+      character.current_health_points = character.health_points;
+      character.current_magic_points = character.magic_points;
+      character.location = 'forest';
+      character.xpos = 0;
+      character.ypos = 0;
+    }
     save();
     display("The battle has ended! You've earned a total of "
 	    + totalEXPGained + " EXP this battle.");

@@ -27,11 +27,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     xpos: {
       type: DataTypes.INTEGER,
-      defaultValue: 0
+      defaultValue: 2
     },
     ypos: {
       type: DataTypes.INTEGER,
-      defaultValue: 0
+      defaultValue: 8
     },
     level: {
       type: DataTypes.INTEGER,
@@ -46,11 +46,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     health_points: {
       type: DataTypes.INTEGER,
-      defaultValue: 100
+      defaultValue: 50
     },
     magic_points: {
       type: DataTypes.INTEGER,
-      defaultValue: 100
+      defaultValue: 50
     },
     physical_attack: {
       type: DataTypes.INTEGER,
@@ -70,11 +70,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     current_health_points: {
       type: DataTypes.INTEGER,
-      defaultValue: 100
+      defaultValue: 50
     },
     current_magic_points: {
       type: DataTypes.INTEGER,
-      defaultValue: 100
+      defaultValue: 50
     },
     current_monster_health: {
       type: DataTypes.INTEGER,

@@ -8,12 +8,13 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     
-    <div id="charbox" style="float:left;width:150px;height:100px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
+    <div id="charbox" style="float:left;width:150px;margin:5px 5px 5px 5px;padding:5px 5px 5px 5px;border:5px solid black;background-color:gold;" class="box">
       <div id="char" style="float:center;">
         <p>
-          <div id="charname"></div>
+          <div id="charname"></div><br />
           <div id="charlvl"></div>
           <div id="charhp"></div>
+          <div id="charmp"></div>
         </p>
       </div>
     </div>
@@ -166,8 +167,8 @@
           for (var i = 0; i < portals.length; i++) {
             if (portals[i] != {} && boxman.newx == portals[i].xpos && boxman.newy == portals[i].ypos) {
               boxman.newloc = portals[i].destination;
-              boxman.newx = 0;
-              boxman.newy = 0;
+              boxman.newx = portals[i].newxpos;
+              boxman.newy = portals[i].newypos;
               break;
             }
           }
@@ -178,23 +179,24 @@
         if (should_render) {
           ctx.clearRect(0, 0, TILE_SIZE * AREA_WIDTH, TILE_SIZE * AREA_HEIGHT);
 
-	      var img1 = new Image();
-	      var img2 = new Image();
-	      var img3 = new Image();
-	      //Terrain Choice
-	      if (areamap[0] == 'F') { 
-			    img1.src = "/images/ForestFloor.png";
-			    img2.src = "/images/ForestWall.png";
-			    img3.src = "/images/Portal.png";
-	      } else if (areamap[0] == 'M') {
-				  img1.src = "/images/MountainFloor.png";
-				  img2.src = "/images/MountainWall.png";
-				  img3.src = "/images/Portal.png";
-			  }
-	      var floor = ctx.createPattern(img1,"repeat");
-	      var wall = ctx.createPattern(img2,"repeat");
-	      var portal = ctx.createPattern(img3,"repeat");
-              
+          var img1 = new Image();
+          var img2 = new Image();
+          var img3 = new Image();
+
+          //Terrain Choice
+          if (areamap[0] == 'F') { 
+            img1.src = "/images/ForestFloor.png";
+            img2.src = "/images/ForestWall.png";
+            img3.src = "/images/Portal.png";
+          } else if (areamap[0] == 'M') {
+            img1.src = "/images/MountainFloor.png";
+            img2.src = "/images/MountainWall.png";
+            img3.src = "/images/Portal.png";
+          }
+          var floor = ctx.createPattern(img1,"repeat");
+          var wall = ctx.createPattern(img2,"repeat");
+          var portal = ctx.createPattern(img3,"repeat");
+                
           // Draw the area's terrain
           for(var i = 0; i < areamap.length-1; i++) {
               var x = i % AREA_WIDTH;
@@ -237,11 +239,14 @@
         }
       };
 
+      /* Display the character's information. */
       var displayinfo = function () {
-          $('#charname').html("<b><%= character.name %></b>");
-          $('#charlvl').html("LVL <%= character.level %>");
-          $('#charhp').html("HP: <%= character.current_health_points %> / <%= character.health_points %>");
-        };
+        $('#charname').html("<b><%= character.name %></b>");
+        $('#charlvl').html("LVL <%= character.level %>");
+        $('#charhp').html("HP: <%= character.current_health_points %> / <%= character.health_points %>");
+        $('#charmp').html("HP: <%= character.current_magic_points %> / <%= character.magic_points %>");
+      };
+
       /* Update character information and graphical display. */
       var main = function () {
           update();
