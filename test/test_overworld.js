@@ -1,16 +1,19 @@
 /* Test our basic game overworld. */
 
+var lib_path = process.env['LIB_COV'] ? '../lib-cov' : '../lib';
+//lib_path = '..';
+
 /* Test-related tools. */
 var assert = require('assert');
 var should = require('should');
 var request = require('supertest');
 
 /* Our server. */
-var app = require('../app');
+var app = require(lib_path + '/app');
 
 /* Our models. */
-User = require('../models').User;
-Character = require('../models').Character;
+User = require(lib_path + '/models').User;
+Character = require(lib_path + '/models').Character;
 
 /* TEST EQUIPMENT */
 describe.skip('equip()', function() {

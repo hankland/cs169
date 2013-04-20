@@ -6,4 +6,5 @@ run "npm start" to start application;
 
 Testing:
 
-run "./sync.sh" and "npm test" to make Mocha run all tests in the 'test' directory;
+run "npm test" to make Mocha run all tests in the 'test' directory;
+run "make coverage" to obtain a code coverage report in coverage.html;
