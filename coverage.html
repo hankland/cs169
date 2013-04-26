@@ -4,31 +4,31 @@ make[1]: Entering directory `/home/cs169/Desktop/cs169/cs169'
 init.js: Initializing monsters...
 info: socket.io started
 Express server listening on port 3000
-Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Troll','An ugly troll.',20,15,5,7,1,1,1,'2013-04-20 21:35:20.0Z','2013-04-20 21:35:20.0Z',NULL,NULL) RETURNING *;
-Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Spider','An angry bug.',5,5,0,1,0,0,0,'2013-04-20 21:35:20.0Z','2013-04-20 21:35:20.0Z',NULL,NULL) RETURNING *;
-Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Ghost','A spooky ghost.',10,10,10,3,1,0,0,'2013-04-20 21:35:20.0Z','2013-04-20 21:35:20.0Z',NULL,NULL) RETURNING *;
-Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Big Ghost','An even spookier ghost.',25,25,10,6,1,0,0,'2013-04-20 21:35:20.0Z','2013-04-20 21:35:20.0Z',NULL,NULL) RETURNING *;
+Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Troll','An ugly troll.',20,15,5,7,1,1,1,'2013-04-20 22:52:54.0Z','2013-04-20 22:52:54.0Z',NULL,NULL) RETURNING *;
+Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Spider','An angry bug.',5,5,0,1,0,0,0,'2013-04-20 22:52:54.0Z','2013-04-20 22:52:54.0Z',NULL,NULL) RETURNING *;
+Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Ghost','A spooky ghost.',10,10,10,3,1,0,0,'2013-04-20 22:52:54.0Z','2013-04-20 22:52:54.0Z',NULL,NULL) RETURNING *;
+Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Big Ghost','An even spookier ghost.',25,25,10,6,1,0,0,'2013-04-20 22:52:54.0Z','2013-04-20 22:52:54.0Z',NULL,NULL) RETURNING *;
 Executing: DROP TABLE IF EXISTS "Users";
 Executing: DROP TABLE IF EXISTS "Characters";
 Executing: CREATE TABLE IF NOT EXISTS "Users" ("username" VARCHAR(255) UNIQUE, "password" VARCHAR(255), "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, PRIMARY KEY ("id"));
 Executing: CREATE TABLE IF NOT EXISTS "Characters" ("name" VARCHAR(255) UNIQUE, "location" VARCHAR(255) DEFAULT 'forest', "xpos" INTEGER DEFAULT 2, "ypos" INTEGER DEFAULT 8, "level" INTEGER DEFAULT 1, "experience" INTEGER DEFAULT 0, "inventory" INTEGER[], "health_points" INTEGER DEFAULT 50, "magic_points" INTEGER DEFAULT 50, "physical_attack" INTEGER DEFAULT 10, "magic_attack" INTEGER DEFAULT 10, "physical_defense" INTEGER DEFAULT 1, "magic_defense" INTEGER DEFAULT 1, "current_health_points" INTEGER DEFAULT 50, "current_magic_points" INTEGER DEFAULT 50, "current_monster_health" INTEGER DEFAULT 0, "current_monster_magic" INTEGER, "in_battle" BOOLEAN DEFAULT false, "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, "ClassId" INTEGER, "UserId" INTEGER, "AreaId" INTEGER, PRIMARY KEY ("id"));
 Executing: SELECT * FROM "Users" WHERE "username"='Bob' LIMIT 1;
-Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Bob','b','2013-04-20 21:35:21.0Z','2013-04-20 21:35:21.0Z') RETURNING *;
+Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Bob','b','2013-04-20 22:52:56.0Z','2013-04-20 22:52:56.0Z') RETURNING *;
 Executing: SELECT * FROM "Users" WHERE "username"='Bob' LIMIT 1;
-[90mPOST /register [32m200 [90m310ms - 177[0m
+[90mPOST /register [32m200 [90m452ms - 177[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
-Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Dog','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 21:35:21.0Z','2013-04-20 21:35:21.0Z',NULL,1,NULL) RETURNING *;
+Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Dog','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 22:52:56.0Z','2013-04-20 22:52:56.0Z',NULL,1,NULL) RETURNING *;
 [90mPOST /create_character [32m200 [90m34ms - 26[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
-[90mPOST /create_character [32m200 [90m12ms - 17[0m
+[90mPOST /create_character [32m200 [90m95ms - 17[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='12345678901234567890' LIMIT 1;
-[90mPOST /create_character [32m200 [90m26ms - 17[0m
+[90mPOST /create_character [32m200 [90m39ms - 17[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
-[90mPOST /select_character [32m200 [90m2ms - 32[0m
-[90mPOST /select_character [32m200 [90m2ms - 17[0m
+[90mPOST /select_character [32m200 [90m3ms - 32[0m
+[90mPOST /select_character [32m200 [90m3ms - 17[0m
 Executing: SELECT * FROM "Users" WHERE "id"=1 LIMIT 1;
 Executing: SELECT * FROM "Characters" WHERE "UserId"=1;
-[90mGET /account [32m200 [90m60ms - 1.75kb[0m
+[90mGET /account [32m200 [90m176ms - 1.75kb[0m
 Executing: DROP TABLE IF EXISTS "Users";
 Executing: DROP TABLE IF EXISTS "Characters";
 Executing: DROP TABLE IF EXISTS "Users";
@@ -40,17 +40,17 @@ Executing: CREATE TABLE IF NOT EXISTS "Users" ("username" VARCHAR(255) UNIQUE, "
 Executing: CREATE TABLE IF NOT EXISTS "Characters" ("name" VARCHAR(255) UNIQUE, "location" VARCHAR(255) DEFAULT 'forest', "xpos" INTEGER DEFAULT 2, "ypos" INTEGER DEFAULT 8, "level" INTEGER DEFAULT 1, "experience" INTEGER DEFAULT 0, "inventory" INTEGER[], "health_points" INTEGER DEFAULT 50, "magic_points" INTEGER DEFAULT 50, "physical_attack" INTEGER DEFAULT 10, "magic_attack" INTEGER DEFAULT 10, "physical_defense" INTEGER DEFAULT 1, "magic_defense" INTEGER DEFAULT 1, "current_health_points" INTEGER DEFAULT 50, "current_magic_points" INTEGER DEFAULT 50, "current_monster_health" INTEGER DEFAULT 0, "current_monster_magic" INTEGER, "in_battle" BOOLEAN DEFAULT false, "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, "ClassId" INTEGER, "UserId" INTEGER, "AreaId" INTEGER, PRIMARY KEY ("id"));
 Executing: CREATE TABLE IF NOT EXISTS "Monsters" ("name" VARCHAR(255) DEFAULT 'Monster', "description" VARCHAR(255) DEFAULT 'A generic monster. Kill it for experience!', "experience" INTEGER DEFAULT 10, "health_points" INTEGER DEFAULT 50, "magic_points" INTEGER DEFAULT 50, "physical_attack" INTEGER DEFAULT 5, "magic_attack" INTEGER DEFAULT 5, "physical_defense" INTEGER DEFAULT 1, "magic_defense" INTEGER DEFAULT 1, "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, "AreaId" INTEGER, "CharacterId" INTEGER, PRIMARY KEY ("id"));
 Executing: SELECT * FROM "Users" WHERE "username"='Bob' LIMIT 1;
-Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Bob','b','2013-04-20 21:35:21.0Z','2013-04-20 21:35:21.0Z') RETURNING *;
+Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Bob','b','2013-04-20 22:52:57.0Z','2013-04-20 22:52:57.0Z') RETURNING *;
 Executing: SELECT * FROM "Users" WHERE "username"='Bob' LIMIT 1;
-[90mPOST /register [32m200 [90m207ms - 177[0m
+[90mPOST /register [32m200 [90m297ms - 177[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
-Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Dog','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 21:35:21.0Z','2013-04-20 21:35:21.0Z',NULL,1,NULL) RETURNING *;
-[90mPOST /create_character [32m200 [90m21ms - 26[0m
+Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Dog','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 22:52:57.0Z','2013-04-20 22:52:57.0Z',NULL,1,NULL) RETURNING *;
+[90mPOST /create_character [32m200 [90m24ms - 26[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Cat' LIMIT 1;
-Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Cat','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 21:35:21.0Z','2013-04-20 21:35:21.0Z',NULL,1,NULL) RETURNING *;
-[90mPOST /create_character [32m200 [90m59ms - 26[0m
+Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Cat','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 22:52:57.0Z','2013-04-20 22:52:57.0Z',NULL,1,NULL) RETURNING *;
+[90mPOST /create_character [32m200 [90m37ms - 26[0m
 Executing: SELECT * FROM "Characters" WHERE "id"=2 LIMIT 1;
-[90mGET /play [32m200 [90m45ms - 9.49kb[0m
+[90mGET /play [32m200 [90m47ms - 9.49kb[0m
 Executing: DROP TABLE IF EXISTS "Users";
 Executing: DROP TABLE IF EXISTS "Characters";
 Executing: DROP TABLE IF EXISTS "Users";
@@ -58,21 +58,21 @@ Executing: CREATE TABLE IF NOT EXISTS "Users" ("username" VARCHAR(255) UNIQUE, "
 Executing: CREATE TABLE IF NOT EXISTS "Characters" ("name" VARCHAR(255) UNIQUE, "location" VARCHAR(255) DEFAULT 'forest', "xpos" INTEGER DEFAULT 2, "ypos" INTEGER DEFAULT 8, "level" INTEGER DEFAULT 1, "experience" INTEGER DEFAULT 0, "inventory" INTEGER[], "health_points" INTEGER DEFAULT 50, "magic_points" INTEGER DEFAULT 50, "physical_attack" INTEGER DEFAULT 10, "magic_attack" INTEGER DEFAULT 10, "physical_defense" INTEGER DEFAULT 1, "magic_defense" INTEGER DEFAULT 1, "current_health_points" INTEGER DEFAULT 50, "current_magic_points" INTEGER DEFAULT 50, "current_monster_health" INTEGER DEFAULT 0, "current_monster_magic" INTEGER, "in_battle" BOOLEAN DEFAULT false, "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, "ClassId" INTEGER, "UserId" INTEGER, "AreaId" INTEGER, PRIMARY KEY ("id"));
 Executing: CREATE TABLE IF NOT EXISTS "Users" ("username" VARCHAR(255) UNIQUE, "password" VARCHAR(255), "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, PRIMARY KEY ("id"));
 Executing: SELECT * FROM "Users" WHERE "username"='Annie' LIMIT 1;
-Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Annie','a','2013-04-20 21:35:22.0Z','2013-04-20 21:35:22.0Z') RETURNING *;
+Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Annie','a','2013-04-20 22:52:57.0Z','2013-04-20 22:52:57.0Z') RETURNING *;
 Executing: SELECT * FROM "Users" WHERE "username"='Annie' LIMIT 1;
-[90mPOST /register [32m200 [90m148ms - 179[0m
+[90mPOST /register [32m200 [90m254ms - 179[0m
 Executing: SELECT * FROM "Users" WHERE "username"='Annie' LIMIT 1;
-[90mPOST /register [32m200 [90m5ms - 17[0m
+[90mPOST /register [32m200 [90m12ms - 17[0m
 Executing: SELECT * FROM "Users" WHERE "username"='' LIMIT 1;
-[90mPOST /register [32m200 [90m6ms - 17[0m
+[90mPOST /register [32m200 [90m9ms - 17[0m
 Executing: SELECT * FROM "Users" WHERE "username"='Annie' LIMIT 1;
-[90mPOST /login [32m200 [90m6ms - 179[0m
+[90mPOST /login [32m200 [90m7ms - 179[0m
 Executing: SELECT * FROM "Users" WHERE "username"='Lenny' LIMIT 1;
-[90mPOST /login [32m200 [90m5ms - 17[0m
+[90mPOST /login [32m200 [90m6ms - 17[0m
 Executing: SELECT * FROM "Users" WHERE "username"='Annie' LIMIT 1;
-[90mPOST /login [32m200 [90m21ms - 17[0m
-[90mGET /logout [36m302 [90m2ms - 35[0m
-[90mGET / [32m200 [90m6ms - 1.2kb[0m
+[90mPOST /login [32m200 [90m26ms - 17[0m
+[90mGET /logout [36m302 [90m4ms - 35[0m
+[90mGET / [32m200 [90m8ms - 1.2kb[0m
 Executing: DROP TABLE IF EXISTS "Users";
 Executing: DROP TABLE IF EXISTS "Users";
 Executing: DROP TABLE IF EXISTS "Characters";
@@ -82,43 +82,43 @@ Executing: CREATE TABLE IF NOT EXISTS "Users" ("username" VARCHAR(255) UNIQUE, "
 Executing: CREATE TABLE IF NOT EXISTS "Characters" ("name" VARCHAR(255) UNIQUE, "location" VARCHAR(255) DEFAULT 'forest', "xpos" INTEGER DEFAULT 2, "ypos" INTEGER DEFAULT 8, "level" INTEGER DEFAULT 1, "experience" INTEGER DEFAULT 0, "inventory" INTEGER[], "health_points" INTEGER DEFAULT 50, "magic_points" INTEGER DEFAULT 50, "physical_attack" INTEGER DEFAULT 10, "magic_attack" INTEGER DEFAULT 10, "physical_defense" INTEGER DEFAULT 1, "magic_defense" INTEGER DEFAULT 1, "current_health_points" INTEGER DEFAULT 50, "current_magic_points" INTEGER DEFAULT 50, "current_monster_health" INTEGER DEFAULT 0, "current_monster_magic" INTEGER, "in_battle" BOOLEAN DEFAULT false, "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, "ClassId" INTEGER, "UserId" INTEGER, "AreaId" INTEGER, PRIMARY KEY ("id"));
 Executing: CREATE TABLE IF NOT EXISTS "Monsters" ("name" VARCHAR(255) DEFAULT 'Monster', "description" VARCHAR(255) DEFAULT 'A generic monster. Kill it for experience!', "experience" INTEGER DEFAULT 10, "health_points" INTEGER DEFAULT 50, "magic_points" INTEGER DEFAULT 50, "physical_attack" INTEGER DEFAULT 5, "magic_attack" INTEGER DEFAULT 5, "physical_defense" INTEGER DEFAULT 1, "magic_defense" INTEGER DEFAULT 1, "id"   SERIAL , "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, "AreaId" INTEGER, "CharacterId" INTEGER, PRIMARY KEY ("id"));
 Executing: SELECT * FROM "Users" WHERE "username"='Bob' LIMIT 1;
-Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Bob','b','2013-04-20 21:35:22.0Z','2013-04-20 21:35:22.0Z') RETURNING *;
+Executing: INSERT INTO "Users" ("username","password","createdAt","updatedAt") VALUES ('Bob','b','2013-04-20 22:52:58.0Z','2013-04-20 22:52:58.0Z') RETURNING *;
 Executing: SELECT * FROM "Users" WHERE "username"='Bob' LIMIT 1;
-[90mPOST /register [32m200 [90m171ms - 177[0m
+[90mPOST /register [32m200 [90m393ms - 177[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
-Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Dog','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 21:35:22.0Z','2013-04-20 21:35:22.0Z',NULL,1,NULL) RETURNING *;
-[90mPOST /create_character [32m200 [90m21ms - 26[0m
+Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Dog','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 22:52:58.0Z','2013-04-20 22:52:58.0Z',NULL,1,NULL) RETURNING *;
+[90mPOST /create_character [32m200 [90m35ms - 26[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Cat' LIMIT 1;
-Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Cat','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 21:35:22.0Z','2013-04-20 21:35:22.0Z',NULL,1,NULL) RETURNING *;
-[90mPOST /create_character [32m200 [90m48ms - 26[0m
-Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Monster','A generic monster. Kill it for experience!',10,50,50,5,5,1,1,'2013-04-20 21:35:22.0Z','2013-04-20 21:35:22.0Z',NULL,NULL) RETURNING *;
+Executing: INSERT INTO "Characters" ("name","location","xpos","ypos","level","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","current_health_points","current_magic_points","current_monster_health","in_battle","createdAt","updatedAt","ClassId","UserId","AreaId") VALUES ('Cat','forest',2,8,1,0,50,50,10,10,1,1,50,50,0,false,'2013-04-20 22:52:58.0Z','2013-04-20 22:52:58.0Z',NULL,1,NULL) RETURNING *;
+[90mPOST /create_character [32m200 [90m27ms - 26[0m
+Executing: INSERT INTO "Monsters" ("name","description","experience","health_points","magic_points","physical_attack","magic_attack","physical_defense","magic_defense","createdAt","updatedAt","AreaId","CharacterId") VALUES ('Monster','A generic monster. Kill it for experience!',10,50,50,5,5,1,1,'2013-04-20 22:52:58.0Z','2013-04-20 22:52:58.0Z',NULL,NULL) RETURNING *;
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
 Executing: SELECT * FROM "Characters" WHERE "id"=1 LIMIT 1;
-Executing: UPDATE "Characters" SET "name"='Dog',"location"='forest',"xpos"=2,"ypos"=8,"level"=1,"experience"=14,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=50,"current_magic_points"=50,"current_monster_health"=0,"in_battle"=false,"id"=1,"createdAt"='2013-04-20 21:35:22.0Z',"updatedAt"='2013-04-20 21:35:22.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=1 RETURNING *
-[90mPOST /update_experience [32m200 [90m51ms - 690[0m
+Executing: UPDATE "Characters" SET "name"='Dog',"location"='forest',"xpos"=2,"ypos"=8,"level"=1,"experience"=14,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=50,"current_magic_points"=50,"current_monster_health"=0,"in_battle"=false,"id"=1,"createdAt"='2013-04-20 22:52:58.0Z',"updatedAt"='2013-04-20 22:52:58.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=1 RETURNING *
+[90mPOST /update_experience [32m200 [90m52ms - 690[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
 Executing: SELECT * FROM "Characters" WHERE "id"=1 LIMIT 1;
-Executing: UPDATE "Characters" SET "name"='Dog',"location"='forest',"xpos"=2,"ypos"=8,"level"=3,"experience"=67,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=50,"current_magic_points"=50,"current_monster_health"=0,"in_battle"=false,"id"=1,"createdAt"='2013-04-20 21:35:22.0Z',"updatedAt"='2013-04-20 21:35:22.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=1 RETURNING *
-[90mPOST /update_experience [32m200 [90m17ms - 690[0m
+Executing: UPDATE "Characters" SET "name"='Dog',"location"='forest',"xpos"=2,"ypos"=8,"level"=3,"experience"=67,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=50,"current_magic_points"=50,"current_monster_health"=0,"in_battle"=false,"id"=1,"createdAt"='2013-04-20 22:52:58.0Z',"updatedAt"='2013-04-20 22:52:58.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=1 RETURNING *
+[90mPOST /update_experience [32m200 [90m35ms - 690[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Dog' LIMIT 1;
 Executing: SELECT * FROM "Characters" WHERE "name"='Cat' LIMIT 1;
 Executing: SELECT * FROM "Characters" LIMIT 1;
 Executing: SELECT * FROM "Characters" LIMIT 1;
-Executing: UPDATE "Characters" SET "name"='Cat',"location"='forest',"xpos"=2,"ypos"=8,"level"=1,"experience"=0,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=41,"current_magic_points"=50,"current_monster_health"=0,"in_battle"=false,"id"=2,"createdAt"='2013-04-20 21:35:22.0Z',"updatedAt"='2013-04-20 21:35:22.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=2 RETURNING *
-[90mPOST /attack [32m200 [90m31ms - 55[0m
-[90mPOST /attack [32m200 [90m24ms - 16[0m
+Executing: UPDATE "Characters" SET "name"='Cat',"location"='forest',"xpos"=2,"ypos"=8,"level"=1,"experience"=0,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=41,"current_magic_points"=50,"current_monster_health"=0,"in_battle"=false,"id"=2,"createdAt"='2013-04-20 22:52:58.0Z',"updatedAt"='2013-04-20 22:52:58.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=2 RETURNING *
+[90mPOST /attack [32m200 [90m63ms - 55[0m
+[90mPOST /attack [32m200 [90m28ms - 16[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Bob' LIMIT 1;
-[90mPOST /flee [32m200 [90m6ms - 22[0m
+[90mPOST /flee [32m200 [90m5ms - 22[0m
 Executing: SELECT * FROM "Characters" WHERE "name"='Bob' LIMIT 1;
 Executing: SELECT * FROM "Monsters" WHERE "id"=1 LIMIT 1;
 Executing: SELECT * FROM "Characters" WHERE "id"=2 LIMIT 1;
 Executing: SELECT * FROM "Monsters";
 Executing: SELECT * FROM "Monsters" WHERE "id"=1 LIMIT 1;
-Executing: UPDATE "Characters" SET "name"='Cat',"location"='forest',"xpos"=2,"ypos"=8,"level"=1,"experience"=0,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=41,"current_magic_points"=50,"current_monster_health"=50,"current_monster_magic"=50,"in_battle"=false,"id"=2,"createdAt"='2013-04-20 21:35:22.0Z',"updatedAt"='2013-04-20 21:35:22.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=2 RETURNING *
+Executing: UPDATE "Characters" SET "name"='Cat',"location"='forest',"xpos"=2,"ypos"=8,"level"=1,"experience"=0,"health_points"=50,"magic_points"=50,"physical_attack"=10,"magic_attack"=10,"physical_defense"=1,"magic_defense"=1,"current_health_points"=41,"current_magic_points"=50,"current_monster_health"=50,"current_monster_magic"=50,"in_battle"=false,"id"=2,"createdAt"='2013-04-20 22:52:58.0Z',"updatedAt"='2013-04-20 22:52:58.0Z',"ClassId"=NULL,"UserId"=1,"AreaId"=NULL WHERE "id"=2 RETURNING *
 Executing: SELECT * FROM "Monsters" WHERE "CharacterId"=2 LIMIT 1;
-[90mGET /battle [32m200 [90m45ms - 10.45kb[0m
-Executing: UPDATE "Monsters" SET "name"='Monster',"description"='A generic monster. Kill it for experience!',"experience"=10,"health_points"=50,"magic_points"=50,"physical_attack"=5,"magic_attack"=5,"physical_defense"=1,"magic_defense"=1,"id"=1,"createdAt"='2013-04-20 21:35:22.0Z',"updatedAt"='2013-04-20 21:35:22.0Z',"AreaId"=NULL,"CharacterId"=2 WHERE "id"=1 RETURNING *
-[90mGET /endBattle [33m404 [90m3ms[0m
+[90mGET /battle [32m200 [90m66ms - 10.45kb[0m
+Executing: UPDATE "Monsters" SET "name"='Monster',"description"='A generic monster. Kill it for experience!',"experience"=10,"health_points"=50,"magic_points"=50,"physical_attack"=5,"magic_attack"=5,"physical_defense"=1,"magic_defense"=1,"id"=1,"createdAt"='2013-04-20 22:52:58.0Z',"updatedAt"='2013-04-20 22:52:58.0Z',"AreaId"=NULL,"CharacterId"=2 WHERE "id"=1 RETURNING *
+[90mGET /endBattle [33m404 [90m10ms[0m
 <!DOCTYPE html><html><head><title>Coverage</title><script>
 
 headings = [];

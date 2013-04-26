@@ -1,9 +1,9 @@
 {
   "name": "application-name",
-  "version": "0.0.1",
+  "version": "0.0.1-2",
   "private": true,
   "scripts": {
-    "start": "node lib/app",
+    "start": "node lib/app.js",
     "test": "make test"
   },
   "dependencies": {
@@ -17,5 +17,9 @@
     "should": "latest",
     "supertest": "latest",
     "request": "latest"
+  },
+  "subdomain": "anewmmorpg",
+  "engines": {
+    "node": "0.8.x"
   }
 }
