@@ -7,7 +7,7 @@ var lib_path = process.env['LIB_COV'] ? '../lib-cov' : '../lib';
 var assert = require('assert');
 var should = require('should');
 var request = require('supertest');
-// var io = require('socket.io');
+var io = require('socket.io-client');
 
 /* Socket.IO testing setup. */
 // var socketURL = 'http://localhost:3000';
