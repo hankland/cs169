@@ -134,6 +134,13 @@ describe('TEST_BATTLE', function() {
     })
   })
 
+  /* TEST DEFEND. */
+  describe.skip('defend', function() {
+    it('should reduce the damage taken during the enemy\'s next turn', function(done) {
+      done();
+    })
+  })
+
   /* TEST FLEE. */
   describe('flee', function() {
     it('should return true or false', function(done) {
@@ -166,6 +173,23 @@ describe('TEST_BATTLE', function() {
             });
         });
       });
+    })
+  })
+
+  /* TEST LEVELING UP. */
+  describe('LEVEL_UP', function() {
+    it('should increase the character\'s stats upon each level-up', function(done) {
+      done();
+    })
+  })
+
+  /* TEST DEATH. */
+  describe('DIE', function() {
+    it('should return the character to the original spawning location', function(done) {
+      done();
+    })
+    it('should refresh the character\'s stats upon revival', function(done) {
+      done();
     })
   })
 
