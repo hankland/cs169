@@ -72,57 +72,22 @@ describe('TEST_OVERWORLD', function() {
       });
   })
 
-  /* TEST ENTERING OVERWORLD. */
-  describe('/play', function() {
-    it('should enter the game overworld', function(done) {
-      var req = request(app).get('/play');
-      req.cookies = Cookies;
-      req
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          done();
-        });
-    })
-  })
-
-  /* TEST MOVEMENT. */
-  describe.skip('MOVE'), function() {
-    it('should change the character\'s location', function(done) {
+  /* TEST SENDING MESSAGES */
+  describe.skip('send_message', function() {
+    it('should broadcast the message to all players', function(done) {
       done();
     })
-    it('should not change the character\'s location if the new location is invalid', function(done) {
+    it('should not do anything for blank messages', function(done) {
       done();
     })
-    if('should update the character\'s location for all other players', function(done) {
+    it('should truncate messages that exceed the maximum length', function(done) {
       done();
     })
   })
 
-  /* TEST EQUIPMENT. */
-  describe.skip('EQUIP', function() {
-   it('should equip the item', function(done) {
-      // check that the item is in the character's equippedItems list
-      done();
-    })
-   it('should return currently equipped items to the inventory', function(done) {
-      // check that the item is in the character's equippedItems list
-      done();
-    })
-  })
-
-  /* TEST UNEQUIPMENT */
-  describe.skip('UNEQUIP', function() {
-    it('should unequip the item', function(done) {
-      // check that the item is no longer in the character's equippedItems list
-      done();
-    })
-  })
-
-  /* TEST INTERACTION WITH NPCS */
-  describe.skip('talk_to_npc()', function() {
-    it('should talk to the NPC', function(done) {
-      // make sure that the dialog box successfully appears
+  /* TEST RECEIVING MESSAGES */
+  describe.skip('receive_message', function() {
+   it('should receive a message from another player that sends', function(done) {
       done();
     })
   })
